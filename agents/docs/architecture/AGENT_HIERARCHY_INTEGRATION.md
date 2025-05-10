@@ -516,18 +516,319 @@ app.get('/api/v1/health', async (req, res) => {
 });
 ```
 
+## Service Deployment Patterns
+
+Devloop employs several deployment patterns tailored to different service and agent requirements:
+
+### 1. Core Service Deployment
+
+Core services like the Main API and Knowledge Graph API are deployed as long-running Node.js processes:
+
+```bash
+# Example launch script for Knowledge Graph API
+#!/bin/bash
+cd /mnt/c/Users/angel/Devloop/api
+NODE_ENV=production node kg-api-server.js > ../logs/kg-api.log 2>&1 &
+echo $! > kg-api.pid
+echo "Knowledge Graph API started with PID: $(cat kg-api.pid)"
+```
+
+### 2. Agent Service Deployment
+
+Agent services follow a more dynamic pattern, with parent agents running as persistent processes and child/micro agents potentially spun up on demand:
+
+```javascript
+// Example parent agent service deployment
+const express = require('express');
+const app = express();
+const PlannerAgent = require('./agents/planner/PlannerParentAgent');
+
+// Create a singleton instance of the parent agent
+const plannerAgent = new PlannerAgent();
+
+// API endpoint to interact with the agent
+app.post('/api/v1/agents/planner/execute', async (req, res) => {
+  try {
+    // Extract the request
+    const { goal, constraints, resources } = req.body;
+
+    // Execute the planning operation with the parent agent
+    // This may spawn child agents internally
+    const result = await plannerAgent.execute({ goal, constraints, resources });
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+const PORT = process.env.PLANNER_PORT || 8085;
+app.listen(PORT, () => console.log(`Planner agent service running on port ${PORT}`));
+```
+
+### 3. Ephemeral Agent Deployment
+
+Micro agents often run as ephemeral processes, spun up for specific tasks and shut down afterward:
+
+```javascript
+// Example ephemeral micro agent deployment
+async function deployEphemeralAgent(agentType, parameters) {
+  // Generate a unique ID for this agent instance
+  const instanceId = `${agentType}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
+  // Create a temporary working directory
+  const workDir = path.join(os.tmpdir(), instanceId);
+  fs.mkdirSync(workDir, { recursive: true });
+
+  try {
+    // Spawn the agent process
+    const process = spawn('node', [
+      `./agents/micro/${agentType}.js`,
+      '--parameters', JSON.stringify(parameters),
+      '--workdir', workDir,
+      '--instance-id', instanceId
+    ]);
+
+    // Collect output
+    let stdout = '';
+    let stderr = '';
+
+    process.stdout.on('data', (data) => {
+      stdout += data.toString();
+    });
+
+    process.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    // Return a promise that resolves when the process completes
+    return new Promise((resolve, reject) => {
+      process.on('close', (code) => {
+        if (code === 0) {
+          // Read the result file if it exists
+          const resultFile = path.join(workDir, 'result.json');
+          let result = {};
+
+          if (fs.existsSync(resultFile)) {
+            result = JSON.parse(fs.readFileSync(resultFile, 'utf8'));
+          }
+
+          // Clean up
+          fs.rmSync(workDir, { recursive: true, force: true });
+
+          resolve({
+            success: true,
+            instanceId,
+            result,
+            stdout
+          });
+        } else {
+          reject(new Error(`Agent process exited with code ${code}: ${stderr}`));
+        }
+      });
+    });
+  } catch (error) {
+    // Clean up on error
+    fs.rmSync(workDir, { recursive: true, force: true });
+    throw error;
+  }
+}
+```
+
+### 4. Container-Based Deployment
+
+For production environments, services are containerized using Docker:
+
+```dockerfile
+# Example Dockerfile for Main API
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy application code
+COPY . .
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=8080
+
+# Expose the port
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/api/v1/health || exit 1
+
+# Start the application
+CMD ["node", "server.js"]
+```
+
+## Cross-Service Authentication
+
+Devloop implements a comprehensive authentication system across services:
+
+### 1. Service-to-Service Authentication
+
+Inter-service communication uses API keys for authentication:
+
+```javascript
+// Example middleware for service-to-service authentication
+function validateServiceApiKey(req, res, next) {
+  const apiKey = req.headers['x-api-key'];
+
+  if (!apiKey) {
+    return res.status(401).json({ error: 'API key required' });
+  }
+
+  // Validate against known service keys
+  const serviceRegistry = require('../../../service-registry.json');
+  const validKeys = serviceRegistry.services.map(service => service.apiKey).filter(Boolean);
+
+  if (!validKeys.includes(apiKey)) {
+    return res.status(403).json({ error: 'Invalid API key' });
+  }
+
+  // Add service context to request
+  const service = serviceRegistry.services.find(s => s.apiKey === apiKey);
+  req.serviceContext = {
+    id: service.id,
+    name: service.name
+  };
+
+  next();
+}
+```
+
+### 2. User Authentication
+
+For user interactions, the system uses JWT tokens:
+
+```javascript
+// Example user authentication middleware
+function authenticateUser(req, res, next) {
+  // Extract token from Authorization header
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    // Verify the JWT token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Add user context to request
+    req.userContext = {
+      id: decoded.sub,
+      roles: decoded.roles || [],
+      permissions: decoded.permissions || []
+    };
+
+    next();
+  } catch (error) {
+    return res.status(403).json({ error: 'Invalid or expired token' });
+  }
+}
+```
+
+### 3. Role-Based Access Control
+
+For agent access, a role-based system controls permissions:
+
+```javascript
+// Example RBAC middleware for agent endpoints
+function agentAuthorizationMiddleware(req, res, next) {
+  const { userContext } = req;
+
+  if (!userContext) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  // Extract agent ID from URL
+  const agentId = req.params.agentId;
+
+  // Check agent access permissions
+  const hasAccess = userContext.permissions.some(permission => {
+    // User has global agent access
+    if (permission === 'agents:execute:all') return true;
+
+    // User has access to this specific agent
+    if (permission === `agents:execute:${agentId}`) return true;
+
+    return false;
+  });
+
+  if (!hasAccess) {
+    return res.status(403).json({ error: 'Not authorized to access this agent' });
+  }
+
+  next();
+}
+```
+
+### 4. Authentication Flow
+
+The complete authentication flow across services:
+
+```
+┌──────────────┐      ┌────────────────┐      ┌─────────────────┐
+│ Client/User  │      │ API Gateway    │      │ Auth Service    │
+│              │ ─────┤                │ ─────┤                 │
+└──────────────┘      └────────────────┘      └─────────────────┘
+       │                      │                       │
+       │                      │                       │
+       │ 1. Login Request     │                       │
+       │ ──────────────────────────────────────────▶ │
+       │                      │                       │
+       │ 2. JWT Token         │                       │
+       │ ◀────────────────────────────────────────── │
+       │                      │                       │
+       │ 3. Request + Token   │                       │
+       │ ──────────────────▶ │                       │
+       │                      │                       │
+       │                      │ 4. Validate Token     │
+       │                      │ ──────────────────▶ │
+       │                      │                       │
+       │                      │ 5. Validation Result  │
+       │                      │ ◀────────────────── │
+       │                      │                       │
+       │                      │                       │
+       │                      │       ┌─────────────────┐
+       │                      │       │ Service         │
+       │                      │ ──────┤                 │
+       │                      │       └─────────────────┘
+       │                      │              │
+       │                      │ 6. Request + Service Key │
+       │                      │ ─────────────────────▶ │
+       │                      │                         │
+       │                      │ 7. Response              │
+       │                      │ ◀───────────────────── │
+       │                      │                         │
+       │ 8. Response to User  │                         │
+       │ ◀────────────────── │                         │
+```
+
 ## Service Management Tools
 
 The Devloop architecture includes scripts for managing services:
 
 1. `/system-core/scripts/manage-services.sh`: Command line tool for starting, stopping, and checking services
 2. `/system-core/scripts/generate-api-config.js`: Generates client configuration from service registry
+3. `/system-core/scripts/generate-health-report.js`: Creates detailed health reports for all services
+4. `/system-core/scripts/launch-health-dashboard.sh`: Starts a real-time health monitoring dashboard
 
 ```bash
 # Example service management commands
 ./system-core/scripts/manage-services.sh status       # Check status of all services
 ./system-core/scripts/manage-services.sh start main-api  # Start the main API service
 ./system-core/scripts/manage-services.sh check        # Run health checks on all services
+./system-core/scripts/manage-services.sh restart knowledge-graph-api  # Restart a service
+./system-core/scripts/launch-health-dashboard.sh      # Launch the real-time health dashboard
 ```
 
 ## Conclusion: A Unified Multi-Layered Architecture
