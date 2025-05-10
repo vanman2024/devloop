@@ -1,0 +1,37 @@
+{
+  "agent_type": "single",
+  "schema_version": "1.0",
+  "id": "agent-${id}",
+  "name": "${name}",
+  "description": "${description}",
+  "model": "gpt-4o",
+  "tools": [
+    ${tools}
+  ],
+  "permissions": [
+    ${permissions}
+  ],
+  "system_message": "${system_message}",
+  "metadata": {
+    "created_by": "${created_by}",
+    "version": "${version}",
+    "category": "${category}",
+    "domain": "${domain}"
+  },
+  "guardrails": [
+    ${guardrails}
+  ],
+  "knowledge_sources": [
+    ${knowledge_sources}
+  ],
+  "interaction_patterns": {
+    "handoffs": ${handoffs},
+    "triggers": ${triggers},
+    "notifications": ${notifications}
+  },
+  "retry_policy": {
+    "max_retries": ${max_retries},
+    "retry_delay": ${retry_delay},
+    "error_handling": "${error_handling}"
+  }
+}

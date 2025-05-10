@@ -1,0 +1,64 @@
+{
+  "ui": [
+    "Create UI component design",
+    "Implement component skeleton",
+    "Add styling and layout",
+    "Implement component behavior",
+    "Connect to data sources",
+    "Add error handling",
+    "Write unit tests",
+    "Document component usage"
+  ],
+  "api": [
+    "Define API endpoints",
+    "Implement route handlers",
+    "Add request validation",
+    "Implement business logic",
+    "Connect to data sources",
+    "Add error handling and logging",
+    "Implement authentication/authorization",
+    "Write API tests",
+    "Document API endpoints"
+  ],
+  "data": [
+    "Design database schema",
+    "Implement data models",
+    "Create database migrations",
+    "Implement query methods",
+    "Add validation rules",
+    "Implement data access layer",
+    "Write data model tests",
+    "Document data models and relationships"
+  ],
+  "agent": [
+    "Define agent interfaces",
+    "Implement agent reasoning logic",
+    "Create prompt templates",
+    "Implement LLM connector",
+    "Add result validation",
+    "Implement agent memory",
+    "Set up agent communication",
+    "Add error handling and recovery",
+    "Create agent configuration",
+    "Write agent tests",
+    "Document agent capabilities"
+  ],
+  "testing": [
+    "Create test plan",
+    "Implement unit tests",
+    "Implement integration tests",
+    "Set up test fixtures",
+    "Create mock data",
+    "Implement test automation",
+    "Document test coverage"
+  ],
+  "default": [
+    "Create design document",
+    "Define implementation plan",
+    "Implement core functionality",
+    "Add error handling",
+    "Write tests",
+    "Review implementation",
+    "Document usage"
+  ]
+}

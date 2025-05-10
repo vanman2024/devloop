@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test: App</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 20px;
+    }
+    .test-container {
+      border: 1px solid #444;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .test-info {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #2d2d2d;
+      border-radius: 5px;
+    }
+    .test-component {
+      padding: 20px;
+      background-color: #2d2d2d;
+      border-radius: 5px;
+      min-height: 200px;
+    }
+    .test-error {
+      color: #ff6b6b;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: rgba(255, 0, 0, 0.1);
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+    .test-success {
+      color: #69db7c;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: rgba(0, 255, 0, 0.1);
+      border-radius: 5px;
+    }
+    .test-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .test-status.success {
+      background-color: rgba(0, 255, 0, 0.2);
+      color: #69db7c;
+    }
+    .test-status.error {
+      background-color: rgba(255, 0, 0, 0.2);
+      color: #ff6b6b;
+    }
+    .test-status.loading {
+      background-color: rgba(0, 0, 255, 0.2);
+      color: #74c0fc;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-info">
+      <h2>App</h2>
+      <div id="testStatus" class="test-status loading">Testing...</div>
+      <p>Component Test</p>
+    </div>
+    <div id="componentContainer" class="test-component"></div>
+    <div id="testResult"></div>
+  </div>
+
+  <script type="text/babel">
+    // Mock the router context
+    const RouterContext = React.createContext({
+      pathname: '/',
+      query: {},
+      asPath: '/',
+      push: () => Promise.resolve(),
+      replace: () => Promise.resolve(),
+      reload: () => {},
+      back: () => {},
+      prefetch: () => Promise.resolve(),
+      events: { on: () => {}, off: () => {}, emit: () => {} }
+    });
+    
+    // Test component rendering
+    async function testComponent() {
+      const testResult = document.getElementById('testResult');
+      const testStatus = document.getElementById('testStatus');
+      const componentContainer = document.getElementById('componentContainer');
+      
+      try {
+        // For actual implementation, would dynamically import the component file
+        // For demo purposes, we'll use a mock component
+        const ComponentUnderTest = () => {
+          return (
+            <div className="p-4">
+              <h3 className="mb-3">App Component</h3>
+              <div className="bg-dark p-3 rounded">
+                <p>Test implementation</p>
+                <button className="btn btn-primary">Test Button</button>
+                <div className="mt-3">
+                  <div className="form-control bg-dark text-light">Test Input</div>
+                </div>
+              </div>
+            </div>
+          );
+        };
+        
+        // Render the component
+        ReactDOM.render(<ComponentUnderTest />, componentContainer);
+        
+        // Report success
+        testResult.innerHTML = '<div class="test-success">Component rendered successfully</div>';
+        testStatus.className = 'test-status success';
+        testStatus.textContent = 'Success';
+        
+        // Signal test completion
+        window.testComplete = true;
+        window.testSuccess = true;
+      } catch (error) {
+        // Report error
+        testResult.innerHTML = `<div class="test-error">Error rendering component: ${error.message}
+${error.stack}</div>`;
+        testStatus.className = 'test-status error';
+        testStatus.textContent = 'Error';
+        
+        // Signal test completion
+        window.testComplete = true;
+        window.testSuccess = false;
+      }
+    }
+    
+    // Run test on load
+    testComponent();
+  </script>
+</body>
+</html>

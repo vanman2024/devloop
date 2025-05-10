@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UI Safeguard Panel</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    header {
+      background: #4b5563;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    
+    main {
+      padding: 20px;
+    }
+    
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    button {
+      background: #4b5563;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    button:hover {
+      background: #374151;
+    }
+    
+    .green-button {
+      background: #10b981;
+    }
+    
+    .green-button:hover {
+      background: #059669;
+    }
+    
+    .snapshot-list {
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .snapshot-item {
+      padding: 10px 15px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .snapshot-item:last-child {
+      border-bottom: none;
+    }
+    
+    .snapshot-info {
+      flex: 1;
+    }
+    
+    .snapshot-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .snapshot-date {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    
+    .snapshot-description {
+      font-size: 14px;
+      color: #4b5563;
+    }
+    
+    .snapshot-actions {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .error {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    
+    #status {
+      text-align: right;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    
+    .timestamp {
+      color: #6b7280;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Devloop UI Safeguard Panel</h1>
+      <span id="status-badge" class="badge success">System Active</span>
+    </header>
+    
+    <main>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Snapshots</h2>
+          <button id="take-snapshot" class="green-button">Take Snapshot</button>
+        </div>
+        
+        <div id="snapshots" class="snapshot-list">
+          <div class="snapshot-item">
+            <div class="snapshot-info">
+              <div class="snapshot-title">Loading snapshots...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Component Verification</h2>
+          <button id="verify-components">Verify Components</button>
+        </div>
+        
+        <div id="verification-result">
+          No verification has been run yet.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">System Status</h2>
+        </div>
+        
+        <div id="system-info">
+          Loading system information...
+        </div>
+      </div>
+    </main>
+    
+    <div class="footer">
+      UI Safeguard System • <span id="current-time"></span>
+    </div>
+  </div>
+  
+  <script>
+    // API endpoints
+    const API_URL = 'http://localhost:8090';
+    
+    // Update timestamp
+    function updateTimestamp() {
+      document.getElementById('current-time').textContent = new Date().toLocaleString();
+    }
+    
+    // Format date
+    function formatDate(dateString) {
+      return new Date(dateString).toLocaleString();
+    }
+    
+    // Load snapshots
+    async function loadSnapshots() {
+      try {
+        const response = await fetch(`${API_URL}/list`);
+        const data = await response.json();
+        
+        if (data.success && data.snapshots) {
+          const snapshotsContainer = document.getElementById('snapshots');
+          
+          if (data.snapshots.length === 0) {
+            snapshotsContainer.innerHTML = `
+              <div class="snapshot-item">
+                <div class="snapshot-info">
+                  <div class="snapshot-title">No snapshots available</div>
+                  <div class="snapshot-description">Create your first snapshot using the button above</div>
+                </div>
+              </div>
+            `;
+            return;
+          }
+          
+          snapshotsContainer.innerHTML = data.snapshots.map(snapshot => `
+            <div class="snapshot-item">
+              <div class="snapshot-info">
+                <div class="snapshot-title">${snapshot.id}</div>
+                <div class="snapshot-date">${formatDate(snapshot.timestamp)}</div>
+                <div class="snapshot-description">${snapshot.description || 'No description'}</div>
+              </div>
+              <div class="snapshot-actions">
+                <button class="restore-button" data-id="${snapshot.id}">Restore</button>
+              </div>
+            </div>
+          `).join('');
+          
+          // Add event listeners to restore buttons
+          document.querySelectorAll('.restore-button').forEach(button => {
+            button.addEventListener('click', () => restoreSnapshot(button.dataset.id));
+          });
+        } else {
+          console.error('Failed to load snapshots:', data.error);
+        }
+      } catch (error) {
+        console.error('Error loading snapshots:', error);
+      }
+    }
+    
+    // Create snapshot
+    async function takeSnapshot() {
+      try {
+        const description = prompt('Enter a description for this snapshot:');
+        if (description === null) return; // User cancelled
+        
+        const response = await fetch(`${API_URL}/snapshot`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ description })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          alert(`Snapshot created: ${data.snapshotId}`);
+          loadSnapshots();
+        } else {
+          alert(`Failed to create snapshot: ${data.error}`);
+        }
+      } catch (error) {
+        console.error('Error taking snapshot:', error);
+        alert(`Error: ${error.message}`);
+      }
+    }
+    
+    // Restore snapshot
+    async function restoreSnapshot(snapshotId) {
+      try {
+        if (!confirm(`Are you sure you want to restore snapshot ${snapshotId}? This will overwrite current components.`)) {
+          return;
+        }
+        
+        const response = await fetch(`${API_URL}/restore/${snapshotId}`, {
+          method: 'POST'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          alert(`Snapshot ${snapshotId} restored successfully!
+Backup created: ${data.backupId}
+Refresh the page to see changes.`);
+          window.location.reload();
+        } else {
+          alert(`Failed to restore snapshot: ${data.error}`);
+        }
+      } catch (error) {
+        console.error('Error restoring snapshot:', error);
+        alert(`Error: ${error.message}`);
+      }
+    }
+    
+    // Verify components
+    async function verifyComponents() {
+      try {
+        const verifyResult = document.getElementById('verification-result');
+        verifyResult.innerHTML = 'Verifying components...';
+        
+        const response = await fetch(`${API_URL}/verify`);
+        const data = await response.json();
+        
+        if (data.success) {
+          verifyResult.innerHTML = `
+            <div class="badge success">All ${data.totalComponents} components passed verification</div>
+            <div class="timestamp">Verified at ${new Date().toLocaleString()}</div>
+          `;
+        } else if (data.error) {
+          verifyResult.innerHTML = `
+            <div class="badge error">Verification failed: ${data.error}</div>
+            <div class="timestamp">Verified at ${new Date().toLocaleString()}</div>
+          `;
+        } else {
+          const issueList = data.issues.map(issue => `
+            <div>
+              <strong>${issue.file}</strong>
+              <ul>
+                ${issue.issues.map(i => `<li>${i}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('');
+          
+          verifyResult.innerHTML = `
+            <div class="badge error">${data.issueCount} of ${data.totalComponents} components have issues</div>
+            <div class="timestamp">Verified at ${new Date().toLocaleString()}</div>
+            <div style="margin-top: 10px;">${issueList}</div>
+          `;
+        }
+      } catch (error) {
+        console.error('Error verifying components:', error);
+        document.getElementById('verification-result').innerHTML = `
+          <div class="badge error">Error: ${error.message}</div>
+        `;
+      }
+    }
+    
+    // Load system info
+    async function loadSystemInfo() {
+      try {
+        const response = await fetch(`${API_URL}/status`);
+        const data = await response.json();
+        
+        document.getElementById('system-info').innerHTML = `
+          <dl style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+            <dt>Status:</dt>
+            <dd>${data.status}</dd>
+            <dt>Components Directory:</dt>
+            <dd>${data.config.componentsDir}</dd>
+            <dt>Snapshots Directory:</dt>
+            <dd>${data.config.snapshotsDir}</dd>
+            <dt>Snapshots Count:</dt>
+            <dd>${data.snapshots}</dd>
+            <dt>Auto-snapshot on change:</dt>
+            <dd>${data.config.snapshotOnChange ? 'Enabled' : 'Disabled'}</dd>
+            <dt>Auto-verify:</dt>
+            <dd>${data.config.autoVerify ? 'Enabled' : 'Disabled'}</dd>
+          </dl>
+        `;
+      } catch (error) {
+        console.error('Error loading system info:', error);
+        document.getElementById('system-info').innerHTML = `
+          <div class="badge error">Error: ${error.message}</div>
+        `;
+        
+        document.getElementById('status-badge').className = 'badge error';
+        document.getElementById('status-badge').textContent = 'System Error';
+      }
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // Update timestamp
+      updateTimestamp();
+      setInterval(updateTimestamp, 1000);
+      
+      // Load initial data
+      loadSnapshots();
+      loadSystemInfo();
+      
+      // Add event listeners
+      document.getElementById('take-snapshot').addEventListener('click', takeSnapshot);
+      document.getElementById('verify-components').addEventListener('click', verifyComponents);
+      
+      // Set up periodic refresh
+      setInterval(loadSnapshots, 30000);
+      setInterval(loadSystemInfo, 30000);
+    });
+  </script>
+</body>
+</html>
+  

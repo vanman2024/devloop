@@ -1,0 +1,58 @@
+{
+  "test_type": "agent",
+  "schema_version": "1.0",
+  "id": "test-${id}",
+  "name": "${name}",
+  "description": "${description}",
+  "agent_under_test": {
+    "id": "${agent_id}",
+    "type": "${agent_type}"
+  },
+  "test_scenarios": [
+    ${test_scenarios}
+  ],
+  "assertions": [
+    ${assertions}
+  ],
+  "mocks": {
+    "tools": [
+      ${mock_tools}
+    ],
+    "agents": [
+      ${mock_agents}
+    ],
+    "knowledge_sources": [
+      ${mock_knowledge_sources}
+    ]
+  },
+  "test_environment": {
+    "isolation_level": "${isolation_level}",
+    "setup_scripts": [
+      ${setup_scripts}
+    ],
+    "teardown_scripts": [
+      ${teardown_scripts}
+    ]
+  },
+  "performance_metrics": {
+    "response_time": {
+      "enabled": ${response_time_enabled},
+      "threshold_ms": ${response_time_threshold_ms}
+    },
+    "memory_usage": {
+      "enabled": ${memory_usage_enabled},
+      "threshold_mb": ${memory_usage_threshold_mb}
+    },
+    "accuracy": {
+      "enabled": ${accuracy_enabled},
+      "threshold_percent": ${accuracy_threshold_percent}
+    }
+  },
+  "reporting": {
+    "detailed_logs": ${detailed_logs},
+    "capture_screenshots": ${capture_screenshots},
+    "export_formats": [
+      ${export_formats}
+    ]
+  }
+}

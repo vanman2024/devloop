@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "assistant_definition": {
+    "name": "${name}",
+    "description": "${description}",
+    "instructions": "${instructions}",
+    "model": "${model}",
+    "tools": [
+      ${tools}
+    ],
+    "metadata": {
+      "agent_id": "${agent_id}",
+      "agent_type": "${agent_type}",
+      "domain": "${domain}",
+      "version": "${version}",
+      "created_by": "${created_by}"
+    }
+  },
+  "initialization": {
+    "create_thread": ${create_thread},
+    "default_tools_enabled": ${default_tools_enabled},
+    "file_ids": [
+      ${file_ids}
+    ]
+  },
+  "behavior": {
+    "response_format": {
+      "type": "${response_format_type}"
+    },
+    "temperature": ${temperature},
+    "top_p": ${top_p},
+    "timeout": ${timeout_seconds}
+  },
+  "error_handling": {
+    "retry_policy": {
+      "max_retries": ${max_retries},
+      "retry_interval": ${retry_interval_seconds}
+    },
+    "error_response": "${error_response}"
+  },
+  "permissions": {
+    "tool_permissions": ${tool_permissions},
+    "file_permissions": ${file_permissions}
+  }
+}

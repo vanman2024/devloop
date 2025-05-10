@@ -1,0 +1,52 @@
+{
+  "project_summary": "Devloop is a software development system with UI components, agents, and API integrations",
+  "key_components": [
+    {
+      "name": "UI",
+      "description": "React-based frontend with various components like FeatureManager, SystemHealth, and DocumentManager",
+      "start_command": "./start-tmux-dev.sh"
+    },
+    {
+      "name": "API",
+      "description": "Backend API server with routes for agents and project structure",
+      "start_command": "./launch-server.sh"
+    },
+    {
+      "name": "Database",
+      "description": "IndexedDB/localStorage in browser, SQLite in Node.js for persistence",
+      "key_files": ["ui/src/utils/DatabaseHelper.js"]
+    }
+  ],
+  "common_tasks": [
+    {
+      "task": "Start UI server",
+      "command": "./start-tmux-dev.sh",
+      "notes": "Uses tmux for development environment"
+    },
+    {
+      "task": "UI backup/restore",
+      "reference": "ui/BACKUP_RESTORE_SYSTEM.md"
+    }
+  ],
+  "file_locations": {
+    "ui_components": "ui/src/components/",
+    "api_routes": "api/routes/",
+    "documentation": "agents/docs/",
+    "tests": "ui/src/tests/"
+  },
+  "project_guidelines": [
+    {
+      "guideline": "Test files location",
+      "description": "Place all test files within ui/src/tests/ directory rather than scattered throughout the codebase"
+    },
+    {
+      "guideline": "Database interaction",
+      "description": "Use DatabaseHelper.js for all database operations, which handles both browser and Node.js environments"
+    },
+    {
+      "guideline": "Session logging",
+      "description": "Record all important development session activity in the database using the session context store"
+    }
+  ],
+  "interactions": []
+}

@@ -1,0 +1,64 @@
+{
+  "workflow_id": "feature_task_workflow",
+  "name": "Feature Creation to Task Breakdown",
+  "description": "Workflow for creating a feature and breaking it down into tasks",
+  "version": "1.0.0",
+  "agents": [
+    {
+      "agent_id": "feature_creation_agent",
+      "name": "Feature Creation Agent",
+      "agent_type": "PLANNING",
+      "provider": "ANTHROPIC",
+      "role": "INITIATOR",
+      "domain": "feature_planning",
+      "capabilities": ["feature_design", "knowledge_graph_integration", "requirements_analysis"]
+    },
+    {
+      "agent_id": "task_agent",
+      "name": "Task Agent",
+      "agent_type": "PLANNING",
+      "provider": "ANTHROPIC",
+      "role": "WORKER",
+      "domain": "task_planning",
+      "capabilities": ["task_breakdown", "dependency_tracking", "resource_estimation"]
+    }
+  ],
+  "steps": [
+    {
+      "step_id": "feature_creation",
+      "agent_id": "feature_creation_agent",
+      "description": "Create a feature design based on user requirements",
+      "input_mapping": {
+        "user_request": "feature_description",
+        "context": "context"
+      },
+      "output_mapping": {
+        "feature": "created_feature"
+      },
+      "next_steps": [
+        {
+          "step_id": "task_breakdown",
+          "condition": "success"
+        }
+      ]
+    },
+    {
+      "step_id": "task_breakdown",
+      "agent_id": "task_agent",
+      "description": "Break down the feature into actionable tasks",
+      "input_mapping": {
+        "created_feature": "feature_design",
+        "context": "context"
+      },
+      "output_mapping": {
+        "tasks": "task_list"
+      },
+      "next_steps": []
+    }
+  ],
+  "knowledge_graph": {
+    "integration": true,
+    "entities": ["Feature", "Task", "Component", "Dependency"],
+    "relationships": ["REQUIRES", "IMPLEMENTS", "DEPENDS_ON"]
+  }
+}

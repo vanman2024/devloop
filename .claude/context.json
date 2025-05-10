@@ -1,0 +1,30 @@
+{
+  "important_files": [
+    {
+      "path": "/mnt/c/Users/angel/Devloop/CLAUDE.md",
+      "description": "Guidelines for code modifications",
+      "last_read": "2025-05-06"
+    },
+    {
+      "path": "/mnt/c/Users/angel/Devloop/ui/README.md",
+      "description": "UI documentation",
+      "last_read": "2025-05-06" 
+    }
+  ],
+  "conversation_history": [
+    {
+      "date": "2025-05-06",
+      "topic": "Setting up .claude directory",
+      "outcome": "Created memory.json, settings.local.json, and context.json"
+    }
+  ],
+  "custom_commands": {
+    "start_ui": "./start-tmux-dev.sh",
+    "start_api": "./launch-server.sh"
+  },
+  "project_navigation": {
+    "ui_components": "/mnt/c/Users/angel/Devloop/ui/src/components",
+    "api_endpoints": "/mnt/c/Users/angel/Devloop/api/endpoints",
+    "documentation": "/mnt/c/Users/angel/Devloop/agents/docs"
+  }
+}

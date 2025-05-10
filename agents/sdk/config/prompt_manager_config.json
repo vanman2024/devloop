@@ -1,0 +1,61 @@
+{
+  "templates_dir": "/mnt/c/Users/angel/Devloop/agents/templates/prompt",
+  "max_context_tokens": 24000,
+  "memory_kg_path": "/mnt/c/Users/angel/Devloop/backups/system-core-backup/system-core/memory/init-memory.json",
+  "context_dir": "/mnt/c/Users/angel/Devloop/agents/sdk/contexts",
+  "integrations": {
+    "knowledge_base": {
+      "adapter_type": "knowledge_graph",
+      "kg_path": "/mnt/c/Users/angel/Devloop/backups/system-core-backup/system-core/memory/init-memory.json",
+      "cache_enabled": true
+    },
+    "vector_db": {
+      "persist_directory": "/mnt/c/Users/angel/Devloop/agents/sdk/vector_db",
+      "openai_api_key": "${OPENAI_API_KEY}"
+    },
+    "redis": {
+      "redis_host": "localhost",
+      "redis_port": 6379,
+      "redis_db": 0,
+      "redis_password": null
+    },
+    "mongodb": {
+      "mongo_host": "localhost",
+      "mongo_port": 27017,
+      "mongo_db": "devloop",
+      "mongo_collection": "templates"
+    },
+    "langchain": {
+      "embedding_model": "text-embedding-3-small",
+      "api_key": "${OPENAI_API_KEY}"
+    }
+  },
+  "providers": {
+    "openai": {
+      "api_key": "${OPENAI_API_KEY}",
+      "model": "gpt-4o",
+      "temperature": 0.7,
+      "use_assistants_api": false,
+      "token_limit": 24000
+    },
+    "claude": {
+      "api_key": "${CLAUDE_API_KEY}",
+      "model": "claude-3-opus-20240229",
+      "temperature": 0.7,
+      "token_limit": 200000
+    },
+    "sk": {
+      "api_key": "${OPENAI_API_KEY}",
+      "provider": "openai",
+      "model": "gpt-4o",
+      "temperature": 0.7
+    }
+  },
+  "activity_logging": {
+    "enabled": true,
+    "websocket_service": "http://localhost:3000/api/activity",
+    "batch_size": 10,
+    "flush_interval": 5,
+    "log_level": "info"
+  }
+}

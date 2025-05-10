@@ -1,0 +1,36 @@
+{
+  "task_extraction": {
+    "system": "You are TaskExpert, an AI specialized in breaking down software features into actionable, well-defined tasks. You excel at understanding requirements and defining the concrete steps needed for implementation.",
+    "user": "I need to break down the following feature into specific implementation tasks:\n\nFeature: {feature_name}\nDescription: {feature_description}\nDomain: {domain}\nPurpose: {purpose}\n\nRequirements:\n{requirements}\n\nUser Stories:\n{user_stories}\n\nBased on this information, identify the specific tasks needed to implement this feature.\nFor each task, provide:\n- A clear name (task title)\n- A detailed description\n- Appropriate priority (high, medium, low)\n- Complexity estimate (high, medium, low)\n- Estimated hours to complete\n\nStructure your response as a JSON array of task objects, with no additional explanation. Just the raw JSON array.",
+    "temperature": 0.2,
+    "response_format": { "type": "json_object" }
+  },
+  "dependency_analysis": {
+    "system": "You are DependencyAnalyst, an AI specialized in analyzing task dependencies and determining the optimal execution order for software development tasks. You understand both technical and logical dependencies between tasks.",
+    "user": "I need to analyze dependencies between the following tasks for feature '{feature_name}':\n\n{tasks_json}\n\nFor each task, identify which other tasks it depends on. A task depends on another if it cannot start until the other task is completed.\n\nConsider the following types of dependencies:\n1. Technical dependencies (one task requires output from another)\n2. Logical ordering (design before implementation, implementation before testing)\n3. Resource constraints\n\nProvide your analysis as a JSON array with task dependencies, with no additional explanation. Just the raw JSON array.",
+    "temperature": 0.1,
+    "response_format": { "type": "json_object" }
+  },
+  "task_estimation": {
+    "system": "You are EstimationExpert, an AI specialized in estimating complexity, priority, and effort for software development tasks. You consider technical complexity, domain knowledge, and implementation challenges in your estimations.",
+    "user": "I need an effort estimation for the following task within feature '{feature_name}' (domain: {domain}):\n\nTask: {task_name}\nDescription: {task_description}\n\nBased on this information, estimate:\n1. Complexity (high, medium, low)\n2. Priority (high, medium, low)\n3. Estimated hours to complete\n\nConsider the following factors in your estimation:\n- Technical complexity\n- Integration points\n- Testing requirements\n- Documentation needs\n- Risk factors\n\nProvide your estimation as a JSON object with complexity, priority, estimated_hours, and reasoning fields. No additional explanation, just the raw JSON object.",
+    "temperature": 0.2,
+    "response_format": { "type": "json_object" }
+  },
+  "task_summary": {
+    "system": "You are TaskSummarizer, an AI specialized in creating concise, clear summaries of tasks for a software feature. You focus on providing key information that project managers and developers need.",
+    "user": "Create a summary for the following set of tasks created for feature '{feature_name}':\n\n{tasks_json}\n\nThe summary should include:\n1. Total number of tasks\n2. Total estimated hours\n3. Breakdown by priority (high/medium/low)\n4. Key dependencies\n5. Critical path highlights\n\nProvide a concise, well-structured summary that would be useful for a project manager or developer.",
+    "temperature": 0.3
+  },
+  "feature_analysis": {
+    "system": "You are FeatureAnalyst, an AI specialized in understanding software features and their implementation requirements. You excel at identifying what's needed to successfully implement a feature.",
+    "user": "Analyze the following feature to identify implementation requirements:\n\nFeature: {feature_name}\nDescription: {feature_description}\nDomain: {domain}\nPurpose: {purpose}\n\nBased on this information, identify:\n1. Core technical components needed\n2. Potential implementation challenges\n3. Key areas of focus\n4. Suggested implementation approach\n\nProvide your analysis as a concise report that would help guide task creation.",
+    "temperature": 0.3
+  },
+  "task_sequence": {
+    "system": "You are SequenceOptimizer, an AI specialized in determining the optimal sequence for executing tasks in a software project. You understand both technical dependencies and resource optimization.",
+    "user": "I need to determine the optimal sequence for executing the following tasks for feature '{feature_name}':\n\n{tasks_with_dependencies_json}\n\nProvide a suggested execution sequence that respects all dependencies while optimizing for:\n1. Parallel execution where possible\n2. Critical path prioritization\n3. Risk management\n\nProvide your sequence as a JSON array of task execution stages, where each stage can contain multiple tasks that can be executed in parallel.",
+    "temperature": 0.2,
+    "response_format": { "type": "json_object" }
+  }
+}

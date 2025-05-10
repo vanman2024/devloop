@@ -1,0 +1,1 @@
+/mnt/c/Users/angel/Devloop/scripts/maintenance/cleanup-ui.sh

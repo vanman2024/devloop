@@ -1,0 +1,1 @@
+scripts/system/activate-ai-systems.sh

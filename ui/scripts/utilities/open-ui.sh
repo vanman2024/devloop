@@ -1,0 +1,1 @@
+/mnt/c/Users/angel/Devloop/scripts/ui/open-ui.sh

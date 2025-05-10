@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2023-05-09T12:00:00Z",
+  "services": [
+    {
+      "id": "main-api",
+      "name": "Main API Server",
+      "description": "Core application API providing feature management and system functionality",
+      "port": 8080,
+      "baseUrl": "http://localhost:8080",
+      "repository": "/mnt/c/Users/angel/devloop/api",
+      "startCommand": "./launch-api-server.sh",
+      "healthCheck": "/api/v1/health",
+      "dependencies": ["knowledge-graph-api"],
+      "documentation": "/mnt/c/Users/angel/devloop/api/docs/API_DOCUMENTATION.md",
+      "maintainers": ["system-team"]
+    },
+    {
+      "id": "ui-server",
+      "name": "UI Server",
+      "description": "Frontend application server serving the React UI",
+      "port": 3000,
+      "baseUrl": "http://localhost:3000",
+      "repository": "/mnt/c/Users/angel/devloop/ui",
+      "startCommand": "./start-ui.sh",
+      "healthCheck": "/",
+      "dependencies": ["main-api"],
+      "documentation": "/mnt/c/Users/angel/devloop/ui/docs/README.md",
+      "maintainers": ["ui-team"]
+    },
+    {
+      "id": "document-server",
+      "name": "Document Generation Server",
+      "description": "AI-powered document generation and analysis service",
+      "port": 3002,
+      "baseUrl": "http://localhost:3002",
+      "repository": "/mnt/c/Users/angel/devloop/ui/server",
+      "startCommand": "./start-document-server.sh",
+      "healthCheck": "/api/documents/health",
+      "dependencies": [],
+      "documentation": "/mnt/c/Users/angel/devloop/ui/docs/DOCUMENT_MANAGER_README.md",
+      "maintainers": ["ai-team", "documentation-team"]
+    },
+    {
+      "id": "knowledge-graph-api",
+      "name": "Knowledge Graph API",
+      "description": "Knowledge graph storage and query service",
+      "port": 8000,
+      "baseUrl": "http://localhost:8000",
+      "repository": "/mnt/c/Users/angel/devloop/backups/system-core-backup/system-core/memory/manager",
+      "startCommand": "./launch-kg-test-server.sh",
+      "healthCheck": "/api/graph/health",
+      "dependencies": [],
+      "documentation": "/mnt/c/Users/angel/devloop/backups/system-core-backup/system-core/memory/manager/KNOWLEDGE_GRAPH_API.md",
+      "maintainers": ["knowledge-team"]
+    },
+    {
+      "id": "memory-api",
+      "name": "Memory API",
+      "description": "System memory and persistence layer API",
+      "port": 8001,
+      "baseUrl": "http://localhost:8001",
+      "repository": "/mnt/c/Users/angel/devloop/backups/system-core-backup/system-core/memory/manager",
+      "startCommand": "./launch-memory-api.sh",
+      "healthCheck": "/api/memory/health",
+      "dependencies": ["knowledge-graph-api"],
+      "documentation": "/mnt/c/Users/angel/devloop/backups/system-core-backup/system-core/memory/manager/README.md",
+      "maintainers": ["memory-team"]
+    },
+    {
+      "id": "activity-tracking-server",
+      "name": "Activity Tracking Server",
+      "description": "Service for tracking user and system activity",
+      "port": 8002,
+      "baseUrl": "http://localhost:8002",
+      "repository": "/mnt/c/Users/angel/devloop/backups/system-core-backup/system-core/memory/activity",
+      "startCommand": "./launch-activity-server.sh",
+      "healthCheck": "/api/activity/health",
+      "dependencies": ["memory-api"],
+      "documentation": null,
+      "maintainers": ["activity-team"]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "agent-feature-creation",
+  "name": "Feature Creation Agent",
+  "description": "AI assistant that analyzes feature descriptions and suggests optimal placement within project structure",
+  "version": "1.0.0",
+  "type": "single",
+  "model": "gpt-4o",
+  "capabilities": [
+    "Analyze natural language feature descriptions",
+    "Determine appropriate milestone, phase, and module placement",
+    "Generate feature IDs following project conventions",
+    "Suggest relevant tags and metadata",
+    "Identify potential dependencies based on feature context",
+    "Create comprehensive feature definitions",
+    "Provide guidance on feature structure and organization"
+  ],
+  "tools": [
+    "tool-feature-analyzer",
+    "tool-placement-suggester",
+    "tool-id-generator",
+    "tool-knowledge-graph-querier",
+    "tool-structure-querier"
+  ],
+  "permissions": [
+    "read_project_structure",
+    "query_knowledge_graph",
+    "generate_feature_id",
+    "suggest_feature_placement",
+    "create_feature"
+  ],
+  "integrations": [
+    "knowledge_graph",
+    "project_structure_api",
+    "feature_creator_ui"
+  ],
+  "status": "development",
+  "created_at": "2025-05-07T00:00:00Z",
+  "updated_at": "2025-05-07T00:00:00Z",
+  "maintainer": "Devloop Team"
+}

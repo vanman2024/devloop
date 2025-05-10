@@ -1,0 +1,10 @@
+{
+  "command": {
+    "type": "agent",
+    "name": "${name}",
+    "agent_type": "${type}",
+    "description": "${description}",
+    "tools": ${tools},
+    "thinking": "${thinking_content}"
+  }
+}

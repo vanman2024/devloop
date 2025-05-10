@@ -1,0 +1,326 @@
+{
+  "feature": {
+    "id": "feature-7545-knowledge-graph-visualization",
+    "name": "Knowledge Graph Visualization",
+    "description": "Create a visualization component for the knowledge graph that displays nodes and relationships in an interactive manner. Allow users to explore the graph, filter by node types, and search for specific nodes.",
+    "tags": ["ui", "visualization", "knowledge-graph", "interactive", "dashboard"],
+    "status": "not-started",
+    "milestone": "milestone-ui-dashboard",
+    "phase": "phase-04",
+    "module": "feature-improvements",
+    "domain": "ui",
+    "purpose": "new_feature",
+    "created_at": "2025-05-07T23:18:19.147Z",
+    "updated_at": "2025-05-07T23:18:19.147Z",
+    "dependencies": [
+      {
+        "id": "feature-2101",
+        "name": "Dynamic UI Components",
+        "type": "feature",
+        "relationship": "depends_on",
+        "strength": "required"
+      }
+    ],
+    "metadata": {
+      "created_by": "feature_creation_agent",
+      "confidence": 0.85,
+      "analysis": {
+        "concepts": ["visualization", "knowledge-graph", "interactive", "component", "nodes", "relationships"],
+        "extracted_requirements": [
+          "Display nodes and relationships", 
+          "Interactive exploration",
+          "Filtering by node types",
+          "Search functionality"
+        ]
+      }
+    }
+  },
+  "knowledge_graph": {
+    "nodes": {
+      "feature-7545-knowledge-graph-visualization": {
+        "id": "feature-7545-knowledge-graph-visualization",
+        "type": "feature",
+        "properties": {
+          "name": "Knowledge Graph Visualization",
+          "description": "Create a visualization component for the knowledge graph that displays nodes and relationships in an interactive manner. Allow users to explore the graph, filter by node types, and search for specific nodes.",
+          "status": "not-started",
+          "tags": ["ui", "visualization", "knowledge-graph", "interactive", "dashboard"],
+          "domain": "ui",
+          "purpose": "new_feature",
+          "created_at": "2025-05-07T23:18:19.147Z",
+          "updated_at": "2025-05-07T23:18:19.147Z"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "milestone": "milestone-ui-dashboard",
+          "phase": "phase-04",
+          "module": "feature-improvements"
+        }
+      },
+      "milestone-ui-dashboard": {
+        "id": "milestone-ui-dashboard",
+        "type": "milestone",
+        "properties": {
+          "name": "Ui Dashboard",
+          "status": "active"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.161Z"
+        }
+      },
+      "phase-04": {
+        "id": "phase-04",
+        "type": "phase",
+        "properties": {
+          "name": "Phase 04",
+          "status": "active"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.162Z",
+          "milestone": "milestone-ui-dashboard"
+        }
+      },
+      "feature-improvements": {
+        "id": "feature-improvements",
+        "type": "module",
+        "properties": {
+          "name": "Feature Improvements",
+          "status": "active"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.163Z",
+          "phase": "phase-04",
+          "milestone": "milestone-ui-dashboard"
+        }
+      },
+      "concept-visualization": {
+        "id": "concept-visualization",
+        "type": "concept",
+        "properties": {
+          "name": "visualization",
+          "normalized": "visualization",
+          "domain": "ui"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.177Z"
+        }
+      },
+      "concept-knowledge-graph": {
+        "id": "concept-knowledge-graph",
+        "type": "concept",
+        "properties": {
+          "name": "knowledge-graph",
+          "normalized": "knowledge-graph",
+          "domain": "ui"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.179Z"
+        }
+      },
+      "concept-interactive": {
+        "id": "concept-interactive",
+        "type": "concept",
+        "properties": {
+          "name": "interactive",
+          "normalized": "interactive",
+          "domain": "ui"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.177Z"
+        }
+      },
+      "concept-dashboard": {
+        "id": "concept-dashboard",
+        "type": "concept",
+        "properties": {
+          "name": "dashboard",
+          "normalized": "dashboard",
+          "domain": "ui"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.167Z"
+        }
+      },
+      "domain-ui": {
+        "id": "domain-ui",
+        "type": "domain",
+        "properties": {
+          "name": "Ui",
+          "description": "Domain for ui features"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.180Z"
+        }
+      },
+      "purpose-new_feature": {
+        "id": "purpose-new_feature",
+        "type": "purpose",
+        "properties": {
+          "name": "New_feature",
+          "description": "Purpose category for new_feature features"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.180Z"
+        }
+      }
+    },
+    "edges": [
+      {
+        "type": "milestone_contains_phase",
+        "source": "milestone-ui-dashboard",
+        "target": "phase-04",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.162Z"
+        }
+      },
+      {
+        "type": "phase_contains_module",
+        "source": "phase-04",
+        "target": "feature-improvements",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.163Z"
+        }
+      },
+      {
+        "type": "module_contains_feature",
+        "source": "feature-improvements",
+        "target": "feature-7545-knowledge-graph-visualization",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.164Z"
+        }
+      },
+      {
+        "type": "feature_related_to_concept",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "concept-visualization",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.177Z"
+        }
+      },
+      {
+        "type": "feature_related_to_concept",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "concept-knowledge-graph",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.179Z"
+        }
+      },
+      {
+        "type": "feature_related_to_concept",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "concept-interactive",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.177Z"
+        }
+      },
+      {
+        "type": "feature_related_to_concept",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "concept-dashboard",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.167Z"
+        }
+      },
+      {
+        "type": "feature_belongs_to_domain",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "domain-ui",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.180Z"
+        }
+      },
+      {
+        "type": "feature_has_purpose",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "purpose-new_feature",
+        "properties": {},
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.180Z"
+        }
+      },
+      {
+        "type": "feature_depends_on",
+        "source": "feature-7545-knowledge-graph-visualization",
+        "target": "feature-2101",
+        "properties": {
+          "relationship": "depends_on",
+          "strength": "required"
+        },
+        "metadata": {
+          "created_by": "feature_creation_agent",
+          "created_at": "2025-05-07T23:18:19.172Z"
+        }
+      }
+    ]
+  },
+  "vector_store": {
+    "feature-7545-knowledge-graph-visualization": {
+      "embedding": [...],
+      "text": "Knowledge Graph Visualization Create a visualization component for the knowledge graph that displays nodes and relationships in an interactive manner. Allow users to explore the graph, filter by node types, and search for specific nodes. ui visualization knowledge-graph interactive dashboard",
+      "data": {
+        "name": "Knowledge Graph Visualization",
+        "description": "Create a visualization component for the knowledge graph that displays nodes and relationships in an interactive manner. Allow users to explore the graph, filter by node types, and search for specific nodes.",
+        "tags": ["ui", "visualization", "knowledge-graph", "interactive", "dashboard"],
+        "domain": "ui",
+        "purpose": "new_feature",
+        "milestone": "milestone-ui-dashboard",
+        "phase": "phase-04",
+        "module": "feature-improvements"
+      }
+    }
+  },
+  "mongo_document": {
+    "_id": "feature-7545-knowledge-graph-visualization",
+    "name": "Knowledge Graph Visualization",
+    "description": "Create a visualization component for the knowledge graph that displays nodes and relationships in an interactive manner. Allow users to explore the graph, filter by node types, and search for specific nodes.",
+    "milestone": "milestone-ui-dashboard",
+    "phase": "phase-04",
+    "module": "feature-improvements",
+    "tags": ["ui", "visualization", "knowledge-graph", "interactive", "dashboard"],
+    "domain": "ui",
+    "purpose": "new_feature",
+    "status": "not-started",
+    "dependencies": [
+      {
+        "id": "feature-2101",
+        "name": "Dynamic UI Components",
+        "type": "feature"
+      }
+    ],
+    "created_at": "2025-05-07T23:18:19.147Z",
+    "updated_at": "2025-05-07T23:18:19.147Z",
+    "created_by": "feature_creation_agent",
+    "extracted_requirements": [
+      "Display nodes and relationships", 
+      "Interactive exploration",
+      "Filtering by node types",
+      "Search functionality"
+    ]
+  }
+}

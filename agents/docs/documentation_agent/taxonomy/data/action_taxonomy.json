@@ -1,0 +1,477 @@
+{
+  "parse": {
+    "description": "To analyze and convert data from one format to another, breaking it into components",
+    "examples": ["parseJsonResponse", "parseXmlDocument", "parseConfigFile"],
+    "category": "Data Operations"
+  },
+  "transform": {
+    "description": "To change data from one structure or format to another",
+    "examples": ["transformRawData", "transformToViewModel", "transformResponseFormat"],
+    "category": "Data Operations"
+  },
+  "validate": {
+    "description": "To check if data meets specified criteria or constraints",
+    "examples": ["validateUserInput", "validateConfigFile", "validateFormData"],
+    "category": "Data Operations"
+  },
+  "filter": {
+    "description": "To selectively include or exclude data based on criteria",
+    "examples": ["filterInactiveUsers", "filterOutliers", "filterByDate"],
+    "category": "Data Operations"
+  },
+  "sort": {
+    "description": "To arrange data elements in a specific order",
+    "examples": ["sortByTimestamp", "sortUsersAlphabetically", "sortNumericValues"],
+    "category": "Data Operations"
+  },
+  "aggregate": {
+    "description": "To combine multiple data items into a single result",
+    "examples": ["aggregateMetrics", "aggregateDailyStats", "aggregateUserActivity"],
+    "category": "Data Operations"
+  },
+  "merge": {
+    "description": "To combine two or more datasets into one",
+    "examples": ["mergeUserProfiles", "mergeBranchData", "mergeArrays"],
+    "category": "Data Operations"
+  },
+  "normalize": {
+    "description": "To restructure data to reduce redundancy and improve integrity",
+    "examples": ["normalizeDatabase", "normalizeInputValues", "normalizeResponseFormat"],
+    "category": "Data Operations"
+  },
+  "serialize": {
+    "description": "To convert data structures into a format for storage or transmission",
+    "examples": ["serializeToJson", "serializeObjectGraph", "serializeForStorage"],
+    "category": "Data Operations"
+  },
+  "deserialize": {
+    "description": "To rebuild data structures from serialized formats",
+    "examples": ["deserializeResponse", "deserializeFromXml", "deserializeStoredData"],
+    "category": "Data Operations"
+  },
+  "extract": {
+    "description": "To obtain specific data from a larger dataset",
+    "examples": ["extractMetadata", "extractKeyFeatures", "extractQueryParameters"],
+    "category": "Data Operations"
+  },
+  "enrich": {
+    "description": "To enhance data with additional information",
+    "examples": ["enrichUserProfiles", "enrichTransactionData", "enrichWithMetadata"],
+    "category": "Data Operations"
+  },
+  "partition": {
+    "description": "To divide data into separate segments based on criteria",
+    "examples": ["partitionByRegion", "partitionDataset", "partitionForParallelProcessing"],
+    "category": "Data Operations"
+  },
+  "compress": {
+    "description": "To reduce data size using encoding algorithms",
+    "examples": ["compressImage", "compressLogFiles", "compressForTransmission"],
+    "category": "Data Operations"
+  },
+  "encrypt": {
+    "description": "To convert data into a secure, encoded format",
+    "examples": ["encryptSensitiveData", "encryptPassword", "encryptWithPublicKey"],
+    "category": "Data Operations"
+  },
+  "decrypt": {
+    "description": "To convert encrypted data back to its original form",
+    "examples": ["decryptSecureMessage", "decryptStoredData", "decryptWithPrivateKey"],
+    "category": "Data Operations"
+  },
+  "initialize": {
+    "description": "To set up the starting state of a system or component",
+    "examples": ["initializeDatabase", "initializeApplication", "initializeDefaultSettings"],
+    "category": "System Operations"
+  },
+  "configure": {
+    "description": "To set specific parameters or options for optimal operation",
+    "examples": ["configureServer", "configureLogging", "configureNetworkSettings"],
+    "category": "System Operations"
+  },
+  "deploy": {
+    "description": "To release software to a production environment",
+    "examples": ["deployApplication", "deployNewVersion", "deployToCloud"],
+    "category": "System Operations"
+  },
+  "monitor": {
+    "description": "To observe system behavior and performance",
+    "examples": ["monitorNetworkTraffic", "monitorResourceUsage", "monitorErrorRates"],
+    "category": "System Operations"
+  },
+  "restart": {
+    "description": "To stop and start a process or system again",
+    "examples": ["restartService", "restartContainer", "restartApplication"],
+    "category": "System Operations"
+  },
+  "backup": {
+    "description": "To create copies of data for recovery purposes",
+    "examples": ["backupDatabase", "backupUserFiles", "backupBeforeDeployment"],
+    "category": "System Operations"
+  },
+  "restore": {
+    "description": "To bring a system back to a previous state",
+    "examples": ["restoreFromBackup", "restoreDefaultSettings", "restorePreviousVersion"],
+    "category": "System Operations"
+  },
+  "scale": {
+    "description": "To adjust resources to handle varying workloads",
+    "examples": ["scaleHorizontally", "scaleClusterSize", "scaleForDemand"],
+    "category": "System Operations"
+  },
+  "provision": {
+    "description": "To set up infrastructure or resources for use",
+    "examples": ["provisionVirtualMachine", "provisionResources", "provisionCloudServices"],
+    "category": "System Operations"
+  },
+  "orchestrate": {
+    "description": "To coordinate multiple systems or processes",
+    "examples": ["orchestrateDeployment", "orchestrateServices", "orchestrateContainers"],
+    "category": "System Operations"
+  },
+  "migrate": {
+    "description": "To move data or systems from one environment to another",
+    "examples": ["migrateToCloud", "migrateDatabase", "migrateUsers"],
+    "category": "System Operations"
+  },
+  "throttle": {
+    "description": "To limit the rate of operations or resource usage",
+    "examples": ["throttleRequests", "throttleApiCalls", "throttleNetworkBandwidth"],
+    "category": "System Operations"
+  },
+  "boot": {
+    "description": "To start up a system from an inactive state",
+    "examples": ["bootOperatingSystem", "bootVirtualMachine", "bootApplication"],
+    "category": "System Operations"
+  },
+  "synchronize": {
+    "description": "To ensure consistency between multiple systems",
+    "examples": ["synchronizeDatabases", "synchronizeClocks", "synchronizeFileSystem"],
+    "category": "System Operations"
+  },
+  "terminate": {
+    "description": "To end a process or system operation completely",
+    "examples": ["terminateInstance", "terminateConnection", "terminateBackgroundTask"],
+    "category": "System Operations"
+  },
+  "render": {
+    "description": "To display visual elements on a user interface",
+    "examples": ["renderDashboard", "renderTemplate", "renderComponent"],
+    "category": "User Interaction"
+  },
+  "navigate": {
+    "description": "To move between different sections of an application",
+    "examples": ["navigateToSettings", "navigateBetweenPages", "navigateUserFlow"],
+    "category": "User Interaction"
+  },
+  "submit": {
+    "description": "To send user input for processing",
+    "examples": ["submitForm", "submitQuery", "submitOrder"],
+    "category": "User Interaction"
+  },
+  "notify": {
+    "description": "To inform users about events or status changes",
+    "examples": ["notifyUserOfChanges", "notifyAboutErrors", "notifySuccessful"],
+    "category": "User Interaction"
+  },
+  "prompt": {
+    "description": "To request input or action from a user",
+    "examples": ["promptForCredentials", "promptForConfirmation", "promptUserChoice"],
+    "category": "User Interaction"
+  },
+  "authenticate": {
+    "description": "To verify user identity",
+    "examples": ["authenticateUser", "authenticateRequest", "authenticateWithToken"],
+    "category": "User Interaction"
+  },
+  "authorize": {
+    "description": "To grant specific permissions to users",
+    "examples": ["authorizeTransaction", "authorizeAccess", "authorizeApiUsage"],
+    "category": "User Interaction"
+  },
+  "display": {
+    "description": "To show information to users",
+    "examples": ["displayResults", "displayErrorMessage", "displayUserData"],
+    "category": "User Interaction"
+  },
+  "refactor": {
+    "description": "To restructure existing code without changing its behavior",
+    "examples": ["refactorLegacyCode", "refactorForPerformance", "refactorToPattern"],
+    "category": "Code Management"
+  },
+  "compile": {
+    "description": "To convert source code into executable format",
+    "examples": ["compileSourceFiles", "compileShaders", "compileToTarget"],
+    "category": "Code Management"
+  },
+  "debug": {
+    "description": "To identify and fix code issues or defects",
+    "examples": ["debugMemoryLeak", "debugPerformanceIssue", "debugEdgeCase"],
+    "category": "Code Management"
+  },
+  "import": {
+    "description": "To include external code or modules",
+    "examples": ["importDependencies", "importLibrary", "importComponent"],
+    "category": "Code Management"
+  },
+  "export": {
+    "description": "To make code available for use elsewhere",
+    "examples": ["exportFunction", "exportInterface", "exportForReuse"],
+    "category": "Code Management"
+  },
+  "extend": {
+    "description": "To add functionality to existing code",
+    "examples": ["extendBaseClass", "extendPrototype", "extendPlugin"],
+    "category": "Code Management"
+  },
+  "override": {
+    "description": "To replace functionality from a parent class",
+    "examples": ["overrideMethod", "overrideDefaultBehavior", "overrideRenderFunction"],
+    "category": "Code Management"
+  },
+  "implement": {
+    "description": "To create code that fulfills an interface or requirement",
+    "examples": ["implementInterface", "implementAlgorithm", "implementProtocol"],
+    "category": "Code Management"
+  },
+  "encapsulate": {
+    "description": "To hide implementation details",
+    "examples": ["encapsulateBusinessLogic", "encapsulateState", "encapsulateDataAccess"],
+    "category": "Code Management"
+  },
+  "delegate": {
+    "description": "To assign functionality to another component",
+    "examples": ["delegateResponsibility", "delegateToHelper", "delegateAuthenticationLogic"],
+    "category": "Code Management"
+  },
+  "optimize": {
+    "description": "To improve efficiency or resource usage",
+    "examples": ["optimizeAlgorithm", "optimizeDatabaseQueries", "optimizeRenderingPath"],
+    "category": "Performance"
+  },
+  "cache": {
+    "description": "To store data temporarily for faster access",
+    "examples": ["cacheResults", "cacheFrequentQueries", "cacheStaticAssets"],
+    "category": "Performance"
+  },
+  "benchmark": {
+    "description": "To measure and compare performance",
+    "examples": ["benchmarkAlgorithm", "benchmarkResponseTime", "benchmarkThroughput"],
+    "category": "Performance"
+  },
+  "profile": {
+    "description": "To analyze resource usage and performance bottlenecks",
+    "examples": ["profileMemoryUsage", "profileExecutionTime", "profileCpuUtilization"],
+    "category": "Performance"
+  },
+  "index": {
+    "description": "To create data structures for faster lookups",
+    "examples": ["indexDatabase", "indexSearchFields", "indexContentForRetrieval"],
+    "category": "Performance"
+  },
+  "prefetch": {
+    "description": "To load data before it's needed to improve responsiveness",
+    "examples": ["prefetchResources", "prefetchNextPage", "prefetchLikelyContent"],
+    "category": "Performance"
+  },
+  "test": {
+    "description": "To verify functionality or behavior",
+    "examples": ["testUserAuthentication", "testPerformance", "testEdgeCases"],
+    "category": "Testing/Quality"
+  },
+  "assert": {
+    "description": "To verify that a condition is true",
+    "examples": ["assertEqualResults", "assertValidResponse", "assertExpectedState"],
+    "category": "Testing/Quality"
+  },
+  "mock": {
+    "description": "To simulate behavior of components",
+    "examples": ["mockDatabaseConnection", "mockApiResponse", "mockUserInteraction"],
+    "category": "Testing/Quality"
+  },
+  "verify": {
+    "description": "To confirm expected behavior or results",
+    "examples": ["verifyCorrectOutput", "verifyNoSideEffects", "verifyEventSequence"],
+    "category": "Testing/Quality"
+  },
+  "commit": {
+    "description": "To save changes to version control",
+    "examples": ["commitChanges", "commitHotfix", "commitFeatureComplete"],
+    "category": "Collaboration"
+  },
+  "merge": {
+    "description": "To combine different versions of code",
+    "examples": ["mergeBranches", "mergeFeature", "mergePullRequest"],
+    "category": "Collaboration"
+  },
+  "branch": {
+    "description": "To create a separate line of development",
+    "examples": ["branchFromMain", "branchForFeature", "branchForHotfix"],
+    "category": "Collaboration"
+  },
+  "document": {
+    "description": "To create explanatory text for code and systems",
+    "examples": ["documentApi", "documentArchitecture", "documentUserFlow"],
+    "category": "Collaboration"
+  },
+  "emit": {
+    "description": "To send out an event or signal",
+    "examples": ["emitStatusChange", "emitUserActivity", "emitCustomEvent"],
+    "category": "Event Handling"
+  },
+  "listen": {
+    "description": "To wait for and respond to specific events",
+    "examples": ["listenForClicks", "listenToSocketEvents", "listenToStateChanges"],
+    "category": "Event Handling"
+  },
+  "subscribe": {
+    "description": "To register interest in receiving events",
+    "examples": ["subscribeToUpdates", "subscribeToChannel", "subscribeToNotifications"],
+    "category": "Event Handling"
+  },
+  "unsubscribe": {
+    "description": "To cancel a previous subscription",
+    "examples": ["unsubscribeFromTopic", "unsubscribeListener", "unsubscribeObserver"],
+    "category": "Event Handling"
+  },
+  "initialize": {
+    "description": "To set up the initial state",
+    "examples": ["initializeAppState", "initializeDefaultValues", "initializeEmptyStore"],
+    "category": "State Management"
+  },
+  "update": {
+    "description": "To modify state with new information",
+    "examples": ["updateUserProfile", "updateCounter", "updateListItems"],
+    "category": "State Management"
+  },
+  "mutate": {
+    "description": "To change state in a specific way",
+    "examples": ["mutateStoreData", "mutateGameState", "mutateResourceValues"],
+    "category": "State Management"
+  },
+  "reset": {
+    "description": "To return state to initial conditions",
+    "examples": ["resetForm", "resetGameState", "resetToDefaults"],
+    "category": "State Management"
+  },
+  "await": {
+    "description": "To pause execution until a promise resolves",
+    "examples": ["awaitDatabaseResult", "awaitUserResponse", "awaitAsyncOperation"],
+    "category": "Async Operations"
+  },
+  "promise": {
+    "description": "To represent a future value",
+    "examples": ["promiseFileUpload", "promiseApiResponse", "promiseDataFetch"],
+    "category": "Async Operations"
+  },
+  "resolve": {
+    "description": "To fulfill a promise with a value",
+    "examples": ["resolveAfterTimeout", "resolveWithResult", "resolveSuccessfully"],
+    "category": "Async Operations"
+  },
+  "reject": {
+    "description": "To indicate failure of a promised operation",
+    "examples": ["rejectWithError", "rejectInvalidInput", "rejectTimeoutExceeded"],
+    "category": "Async Operations"
+  },
+  "catch": {
+    "description": "To handle exceptions or errors",
+    "examples": ["catchNetworkErrors", "catchValidationFailures", "catchRuntimeExceptions"],
+    "category": "Error Handling"
+  },
+  "throw": {
+    "description": "To signal an exceptional condition",
+    "examples": ["throwIfInvalid", "throwCustomError", "throwTypeMismatch"],
+    "category": "Error Handling"
+  },
+  "handle": {
+    "description": "To process errors appropriately",
+    "examples": ["handleTimeout", "handleInvalidInput", "handleSystemFailure"],
+    "category": "Error Handling"
+  },
+  "connect": {
+    "description": "To establish a network connection",
+    "examples": ["connectToServer", "connectWebSocket", "connectSecureChannel"],
+    "category": "Network Operations"
+  },
+  "disconnect": {
+    "description": "To terminate a network connection",
+    "examples": ["disconnectClient", "disconnectFromService", "disconnectInactiveUsers"],
+    "category": "Network Operations"
+  },
+  "send": {
+    "description": "To transmit data over a network",
+    "examples": ["sendHttpRequest", "sendMessage", "sendDataStream"],
+    "category": "Network Operations"
+  },
+  "receive": {
+    "description": "To accept incoming network data",
+    "examples": ["receiveDataStream", "receiveNotification", "receiveClientUpdates"],
+    "category": "Network Operations"
+  },
+  "query": {
+    "description": "To request specific data from a database",
+    "examples": ["queryUserRecords", "queryActiveOrders", "queryFilteredResults"],
+    "category": "Database Operations"
+  },
+  "insert": {
+    "description": "To add new records to a database",
+    "examples": ["insertNewUser", "insertOrderDetails", "insertBatchRecords"],
+    "category": "Database Operations"
+  },
+  "update": {
+    "description": "To modify existing database records",
+    "examples": ["updateUserProfile", "updateInventoryCount", "updateMultipleFields"],
+    "category": "Database Operations"
+  },
+  "delete": {
+    "description": "To remove records from a database",
+    "examples": ["deleteExpiredRecords", "deleteUserAccount", "deleteByCondition"],
+    "category": "Database Operations"
+  },
+  "select": {
+    "description": "To retrieve specific fields from records",
+    "examples": ["selectUserNames", "selectOrderDates", "selectAggregateStats"],
+    "category": "Database Operations"
+  },
+  "allocate": {
+    "description": "To reserve memory for data",
+    "examples": ["allocateBuffer", "allocateResourcePool", "allocateArraySpace"],
+    "category": "Memory Management"
+  },
+  "deallocate": {
+    "description": "To release previously allocated memory",
+    "examples": ["deallocateUnusedMemory", "deallocateHandle", "deallocateBuffer"],
+    "category": "Memory Management"
+  },
+  "free": {
+    "description": "To return memory to the system",
+    "examples": ["freeResource", "freeMemoryBlock", "freeUnusedObjects"],
+    "category": "Memory Management"
+  },
+  "dispose": {
+    "description": "To clean up resources when no longer needed",
+    "examples": ["disposeConnection", "disposeUnmanagedResources", "disposeHandles"],
+    "category": "Memory Management"
+  },
+  "iterate": {
+    "description": "To process items one by one",
+    "examples": ["iterateCollection", "iterateOverResults", "iterateMapEntries"],
+    "category": "Algorithm Operations"
+  },
+  "recurse": {
+    "description": "To solve problems by breaking into simpler instances",
+    "examples": ["recurseTreeStructure", "recurseNestedObjects", "recurseDirectoryContents"],
+    "category": "Algorithm Operations"
+  },
+  "search": {
+    "description": "To find items meeting criteria",
+    "examples": ["searchByKeyword", "searchSortedArray", "searchTreeStructure"],
+    "category": "Algorithm Operations"
+  },
+  "traverse": {
+    "description": "To visit all elements in a data structure",
+    "examples": ["traverseGraph", "traverseDomTree", "traverseLinkedList"],
+    "category": "Algorithm Operations"
+  }
+}

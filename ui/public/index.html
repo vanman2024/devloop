@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Integrated Change Tracking Demo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    header {
+      background-color: #1e293b;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #60a5fa;
+    }
+    
+    main {
+      padding: 2rem 0;
+    }
+    
+    .card {
+      background-color: #1e293b;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .card h2 {
+      margin-top: 0;
+      color: #60a5fa;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .messages {
+      background-color: #334155;
+      border-radius: 0.375rem;
+      height: 320px;
+      overflow-y: auto;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .message {
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .message.outgoing {
+      background-color: #1e40af;
+    }
+    
+    .message.incoming {
+      background-color: #4c1d95;
+    }
+    
+    .message .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    
+    .input-container {
+      display: flex;
+    }
+    
+    input {
+      flex: 1;
+      background-color: #334155;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 0.375rem 0 0 0.375rem;
+    }
+    
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0 0.375rem 0.375rem 0;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #2563eb;
+    }
+    
+    button:disabled {
+      background-color: #64748b;
+      cursor: not-allowed;
+    }
+    
+    .changes {
+      background-color: #334155;
+      border-radius: 0.375rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .change {
+      padding: 0.75rem;
+      background-color: #1e293b;
+      border-radius: 0.375rem;
+      margin-bottom: 0.75rem;
+      border-left: 4px solid;
+    }
+    
+    .change.pending {
+      border-color: #3b82f6;
+    }
+    
+    .change.approved {
+      border-color: #10b981;
+    }
+    
+    .change.rejected {
+      border-color: #ef4444;
+    }
+    
+    .change .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .change .path {
+      font-weight: 500;
+      color: #60a5fa;
+    }
+    
+    .change .status {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+    }
+    
+    .change .status.pending {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+    
+    .change .status.approved {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+    }
+    
+    .change .status.rejected {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    
+    .actions button {
+      border-radius: 0.375rem;
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .actions .approve {
+      background-color: #10b981;
+    }
+    
+    .actions .approve:hover {
+      background-color: #059669;
+    }
+    
+    .actions .reject {
+      background-color: #ef4444;
+    }
+    
+    .actions .reject:hover {
+      background-color: #dc2626;
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    
+    .status-dot.connected {
+      background-color: #10b981;
+    }
+    
+    .status-dot.disconnected {
+      background-color: #ef4444;
+    }
+    
+    .explanation {
+      background-color: #334155;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      margin-top: 2rem;
+    }
+    
+    .explanation h3 {
+      margin-top: 0;
+      color: #60a5fa;
+    }
+    
+    .explanation ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    
+    .explanation li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AI-Integrated Change Tracking System</h1>
+  </header>
+  
+  <div class="container">
+    <main>
+      <div class="card">
+        <h2>Claude Communication Bridge Demo</h2>
+        
+        <div class="status-indicator">
+          <div class="status-dot connected"></div>
+          <span>Connected to Claude</span>
+        </div>
+        
+        <div class="grid">
+          <div>
+            <h3>Messages to Claude</h3>
+            <div class="messages" id="outgoing-messages">
+              <div class="message outgoing">
+                <div class="header">
+                  <span>You</span>
+                  <span>12:30 PM</span>
+                </div>
+                <div class="content">
+                  I've made changes to the header component. Can you review them?
+                </div>
+              </div>
+              <div class="message outgoing">
+                <div class="header">
+                  <span>You</span>
+                  <span>12:32 PM</span>
+                </div>
+                <div class="content">
+                  I'm planning to deploy these changes to production. Any concerns?
+                </div>
+              </div>
+            </div>
+            
+            <div class="input-container">
+              <input type="text" id="message-input" placeholder="Type a message for Claude...">
+              <button id="send-button">Send</button>
+            </div>
+          </div>
+          
+          <div>
+            <h3>Responses from Claude</h3>
+            <div class="messages" id="incoming-messages">
+              <div class="message incoming">
+                <div class="header">
+                  <span>Claude</span>
+                  <span>12:31 PM</span>
+                </div>
+                <div class="content">
+                  I've analyzed your header component changes. The responsive design looks good, but you might want to add more contrast to the menu items for better accessibility.
+                </div>
+              </div>
+              <div class="message incoming">
+                <div class="header">
+                  <span>Claude</span>
+                  <span>12:34 PM</span>
+                </div>
+                <div class="content">
+                  Your changes look good for deployment. I've verified that the component works across different viewports. Just make sure to update the documentation to reflect the new navigation structure.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>Change Tracking & Deployment</h2>
+        
+        <div class="changes" id="changes-list">
+          <div class="change pending">
+            <div class="header">
+              <span class="path">src/components/Header.jsx</span>
+              <span class="status pending">Pending</span>
+            </div>
+            <div class="description">
+              Added responsive navigation and improved accessibility
+            </div>
+            <div class="actions">
+              <button class="reject">Reject</button>
+              <button class="approve">Approve</button>
+            </div>
+          </div>
+          
+          <div class="change approved">
+            <div class="header">
+              <span class="path">src/components/Button.jsx</span>
+              <span class="status approved">Approved</span>
+            </div>
+            <div class="description">
+              Fixed focus states and added keyboard navigation
+            </div>
+          </div>
+          
+          <div class="change rejected">
+            <div class="header">
+              <span class="path">src/pages/Dashboard.jsx</span>
+              <span class="status rejected">Rejected</span>
+            </div>
+            <div class="description">
+              Updated chart components with experimental features
+            </div>
+          </div>
+        </div>
+        
+        <button id="deploy-button" disabled>Deploy Approved Changes (1)</button>
+      </div>
+      
+      <div class="explanation">
+        <h3>How This Works</h3>
+        <p>
+          This demo showcases the bidirectional communication between the UI and Claude AI:
+        </p>
+        <ol>
+          <li>Messages you send are stored in a shared JSON file (<code>claude-inbox.json</code>)</li>
+          <li>Claude reads this file when prompted and processes the messages</li>
+          <li>Claude writes responses to another shared JSON file (<code>claude-outbox.json</code>)</li>
+          <li>The UI polls the outbox file for new messages and displays them</li>
+        </ol>
+        <p>
+          The change tracking system works similarly, allowing Claude to review and approve changes before deployment.
+          This enables complex workflows like code review, deployment approval, and AI assistance for UI development.
+        </p>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    // Simulate sending a message
+    document.getElementById('send-button').addEventListener('click', () => {
+      const input = document.getElementById('message-input');
+      const message = input.value.trim();
+      if (!message) return;
+      
+      // Add message to outgoing messages
+      const outgoingMessages = document.getElementById('outgoing-messages');
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message outgoing';
+      
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      messageElement.innerHTML = `
+        <div class="header">
+          <span>You</span>
+          <span>${time}</span>
+        </div>
+        <div class="content">
+          ${message}
+        </div>
+      `;
+      
+      outgoingMessages.appendChild(messageElement);
+      outgoingMessages.scrollTop = outgoingMessages.scrollHeight;
+      
+      // Clear input
+      input.value = '';
+      
+      // Simulate response after a delay
+      setTimeout(() => {
+        simulateClaudeResponse(message);
+      }, 1500 + Math.random() * 1000);
+    });
+    
+    // Enter key to send message
+    document.getElementById('message-input').addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        document.getElementById('send-button').click();
+      }
+    });
+    
+    // Simulate Claude response
+    function simulateClaudeResponse(message) {
+      const responses = [
+        "I've analyzed your changes and they look good to me. The code is well-structured and follows the project's conventions.",
+        "I notice you've modified the component's state management. Make sure you're handling all edge cases, especially for error states.",
+        "Your implementation looks solid. One suggestion: consider adding more comprehensive tests for the new functionality.",
+        "I've reviewed the changes. The code quality is good, but there might be a performance issue with how you're handling large data sets.",
+        "The changes align with the project's architecture. I'd recommend documenting the new API in the README."
+      ];
+      
+      // Generate a contextual response
+      let response = responses[Math.floor(Math.random() * responses.length)];
+      
+      // Add more context based on the message content
+      if (message.toLowerCase().includes('deploy')) {
+        response += " Regarding deployment, I think these changes are ready for production, but make sure to run the full test suite first.";
+      } else if (message.toLowerCase().includes('review')) {
+        response += " I've completed my review and added specific comments to the relevant files.";
+      } else if (message.toLowerCase().includes('test')) {
+        response += " Your test coverage looks comprehensive, but you might want to add a few more edge cases.";
+      }
+      
+      // Add response to incoming messages
+      const incomingMessages = document.getElementById('incoming-messages');
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message incoming';
+      
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      messageElement.innerHTML = `
+        <div class="header">
+          <span>Claude</span>
+          <span>${time}</span>
+        </div>
+        <div class="content">
+          ${response}
+        </div>
+      `;
+      
+      incomingMessages.appendChild(messageElement);
+      incomingMessages.scrollTop = incomingMessages.scrollHeight;
+    }
+    
+    // Set up approval/rejection handlers
+    document.querySelectorAll('.change').forEach(change => {
+      const approveButton = change.querySelector('.approve');
+      const rejectButton = change.querySelector('.reject');
+      
+      if (approveButton) {
+        approveButton.addEventListener('click', () => {
+          change.classList.remove('pending', 'rejected');
+          change.classList.add('approved');
+          
+          const status = change.querySelector('.status');
+          status.className = 'status approved';
+          status.textContent = 'Approved';
+          
+          change.querySelector('.actions').remove();
+          
+          // Update deploy button
+          updateDeployButton();
+        });
+      }
+      
+      if (rejectButton) {
+        rejectButton.addEventListener('click', () => {
+          change.classList.remove('pending', 'approved');
+          change.classList.add('rejected');
+          
+          const status = change.querySelector('.status');
+          status.className = 'status rejected';
+          status.textContent = 'Rejected';
+          
+          change.querySelector('.actions').remove();
+          
+          // Update deploy button
+          updateDeployButton();
+        });
+      }
+    });
+    
+    // Update deploy button based on approved changes
+    function updateDeployButton() {
+      const approvedChanges = document.querySelectorAll('.change.approved');
+      const deployButton = document.getElementById('deploy-button');
+      
+      if (approvedChanges.length > 0) {
+        deployButton.textContent = `Deploy Approved Changes (${approvedChanges.length})`;
+        deployButton.disabled = false;
+      } else {
+        deployButton.textContent = 'Deploy Approved Changes (0)';
+        deployButton.disabled = true;
+      }
+    }
+    
+    // Handle deploy button
+    document.getElementById('deploy-button').addEventListener('click', () => {
+      if (confirm('Are you sure you want to deploy the approved changes to production?')) {
+        alert('Deployment initiated. The approved changes will be deployed to production.');
+        
+        // Simulate deployment
+        document.getElementById('deploy-button').textContent = 'Deploying...';
+        document.getElementById('deploy-button').disabled = true;
+        
+        setTimeout(() => {
+          document.querySelectorAll('.change.approved').forEach(change => {
+            change.remove();
+          });
+          
+          document.getElementById('deploy-button').textContent = 'Deploy Approved Changes (0)';
+          
+          // Add a successful deployment message
+          simulateClaudeResponse("I've verified the deployment and all systems are working correctly. The changes have been successfully pushed to production.");
+        }, 2000);
+      }
+    });
+    
+    // Initialize
+    updateDeployButton();
+  </script>
+</body>
+</html>

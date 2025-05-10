@@ -1,0 +1,50 @@
+{
+  "tool_type": "knowledge",
+  "schema_version": "1.0",
+  "id": "tool-${id}",
+  "name": "${name}",
+  "description": "${description}",
+  "category": "knowledge",
+  "input_schema": {
+    "type": "object",
+    "properties": ${input_properties},
+    "required": ${required_inputs}
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": ${output_properties}
+  },
+  "permissions": [
+    ${permissions}
+  ],
+  "error_handling": {
+    "retry_enabled": ${retry_enabled},
+    "max_retries": ${max_retries},
+    "error_response": "${error_response}",
+    "fallback_behavior": "${fallback_behavior}"
+  },
+  "metadata": {
+    "created_by": "${created_by}",
+    "version": "${version}",
+    "domain": "${domain}",
+    "usage_examples": [
+      ${usage_examples}
+    ]
+  },
+  "knowledge_sources": [
+    ${knowledge_sources}
+  ],
+  "vector_store": {
+    "enabled": ${vector_store_enabled},
+    "store_type": "${vector_store_type}",
+    "embedding_model": "${embedding_model}",
+    "chunk_size": ${chunk_size},
+    "overlap": ${overlap}
+  },
+  "retrieval_options": {
+    "similarity_threshold": ${similarity_threshold},
+    "max_results": ${max_results},
+    "reranking_enabled": ${reranking_enabled},
+    "filter_options": ${filter_options}
+  }
+}

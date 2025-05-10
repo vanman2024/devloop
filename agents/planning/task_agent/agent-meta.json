@@ -1,0 +1,268 @@
+{
+  "agent_id": "task_agent",
+  "name": "Task Agent",
+  "version": "1.0.0",
+  "description": "An AI-powered agent responsible for breaking down features into tasks and managing their lifecycle",
+  "capabilities": [
+    "feature_analysis",
+    "task_extraction",
+    "dependency_analysis",
+    "task_management",
+    "agent_communication"
+  ],
+  "roles": [
+    {
+      "role": "task_creator",
+      "description": "Analyzes features and extracts actionable tasks",
+      "functions": [
+        "analyze_feature",
+        "extract_tasks_from_requirements",
+        "extract_tasks_from_user_stories",
+        "estimate_task_complexity",
+        "assign_task_priority"
+      ]
+    },
+    {
+      "role": "dependency_analyzer",
+      "description": "Analyzes dependencies between tasks and establishes execution order",
+      "functions": [
+        "analyze_task_dependencies",
+        "determine_task_sequence",
+        "identify_critical_path",
+        "detect_dependency_cycles"
+      ]
+    },
+    {
+      "role": "task_manager",
+      "description": "Manages the lifecycle of tasks in the knowledge graph",
+      "functions": [
+        "create_task",
+        "update_task_status", 
+        "get_tasks_by_feature",
+        "get_task_completion_status",
+        "track_task_history"
+      ]
+    },
+    {
+      "role": "agent_communicator",
+      "description": "Handles communication with other agents",
+      "functions": [
+        "handoff_to_relationship_agent",
+        "receive_feature_updates",
+        "send_task_completion_notifications",
+        "handle_agent_messages"
+      ]
+    }
+  ],
+  "tools": [
+    {
+      "name": "KnowledgeGraphConnector",
+      "description": "Interface to the knowledge graph for storing and retrieving tasks",
+      "functions": [
+        "add_task_to_feature",
+        "get_feature_tasks",
+        "update_task",
+        "generate_tasks_from_requirements",
+        "get_task_dependencies"
+      ]
+    },
+    {
+      "name": "LLMOrchestrator",
+      "description": "Manages interactions with large language models for task extraction",
+      "functions": [
+        "generate_tasks_from_feature",
+        "analyze_dependencies",
+        "estimate_complexity",
+        "determine_priority",
+        "extract_requirements"
+      ]
+    },
+    {
+      "name": "AgentCommunicationService",
+      "description": "Handles communication with other agents",
+      "functions": [
+        "send_message",
+        "receive_message",
+        "handoff_task",
+        "request_dependency_analysis"
+      ]
+    },
+    {
+      "name": "MemoryManager",
+      "description": "Manages agent memory for consistent decision making",
+      "functions": [
+        "store_processed_feature",
+        "retrieve_processed_feature",
+        "track_agent_thought",
+        "log_task_history",
+        "get_agent_thoughts_for_feature"
+      ]
+    }
+  ],
+  "prompt_templates": [
+    {
+      "name": "task_extraction",
+      "description": "Template for extracting tasks from a feature",
+      "template": "You are a task planning expert working on a software development project. Your job is to break down high-level features into concrete, actionable tasks.\n\nFeature: {feature_name}\nDescription: {feature_description}\nDomain: {domain}\nPurpose: {purpose}\n\nRequirements:\n{requirements}\n\nUser Stories:\n{user_stories}\n\nBased on this information, identify the specific tasks needed to implement this feature.\nFor each task, provide:\n- A clear name (task title)\n- A detailed description\n- Appropriate priority (high, medium, low)\n- Complexity estimate (high, medium, low)\n- Estimated hours to complete\n\nStructure your response as a JSON array of task objects:\n```json\n[\n  {\n    \"name\": \"Task name\",\n    \"description\": \"Detailed task description\",\n    \"priority\": \"medium\",\n    \"complexity\": \"medium\",\n    \"estimated_hours\": 4\n  },\n  // More tasks...\n]\n```"
+    },
+    {
+      "name": "dependency_analysis",
+      "description": "Template for analyzing dependencies between tasks",
+      "template": "You are a project manager analyzing dependencies between tasks in a software project.\n\nFeature: {feature_name}\n\nTasks:\n{tasks}\n\nFor each task, identify which other tasks it depends on. A task depends on another if it cannot start until the other task is completed.\n\nConsider the following types of dependencies:\n1. Technical dependencies (one task requires output from another)\n2. Logical ordering (design before implementation, implementation before testing)\n3. Resource constraints\n\nStructure your response as a JSON array with task dependencies:\n```json\n[\n  {\n    \"task_id\": \"task-1001-001\",\n    \"depends_on\": []\n  },\n  {\n    \"task_id\": \"task-1001-002\",\n    \"depends_on\": [\"task-1001-001\"]\n  },\n  // More tasks...\n]\n```"
+    },
+    {
+      "name": "task_estimation",
+      "description": "Template for estimating task complexity and effort",
+      "template": "You are an experienced technical lead estimating effort for software development tasks.\n\nFeature: {feature_name}\nDomain: {domain}\n\nTask: {task_name}\nDescription: {task_description}\n\nBased on this information, estimate:\n1. Complexity (high, medium, low)\n2. Priority (high, medium, low)\n3. Estimated hours to complete\n\nConsider the following factors in your estimation:\n- Technical complexity\n- Integration points\n- Testing requirements\n- Documentation needs\n- Risk factors\n\nStructure your response as a JSON object:\n```json\n{\n  \"complexity\": \"medium\",\n  \"priority\": \"high\",\n  \"estimated_hours\": 6,\n  \"reasoning\": \"This task involves integration with an external system...\"\n}\n```"
+    }
+  ],
+  "message_schemas": [
+    {
+      "type": "feature_creation_notification",
+      "description": "Notification from Feature Creation Agent about a new feature",
+      "schema": {
+        "sender": "feature_creation_agent",
+        "recipient": "task_agent",
+        "message_type": "notification",
+        "content": {
+          "action": "feature_created",
+          "feature_id": "string",
+          "feature_name": "string",
+          "requires_response": true
+        }
+      }
+    },
+    {
+      "type": "task_creation_response",
+      "description": "Response after creating tasks for a feature",
+      "schema": {
+        "sender": "task_agent",
+        "recipient": "feature_creation_agent",
+        "message_type": "response",
+        "content": {
+          "action": "tasks_created",
+          "feature_id": "string",
+          "task_count": "number",
+          "tasks": "array",
+          "summary": "string"
+        }
+      }
+    },
+    {
+      "type": "dependency_analysis_request",
+      "description": "Request to Relationship Agent for dependency analysis",
+      "schema": {
+        "sender": "task_agent",
+        "recipient": "relationship_agent",
+        "message_type": "request",
+        "content": {
+          "action": "analyze_dependencies",
+          "feature_id": "string",
+          "tasks": "array",
+          "requires_response": true
+        }
+      }
+    }
+  ],
+  "sdk_integration": {
+    "openai_assistant_id": "",
+    "functions": [
+      {
+        "name": "process_feature",
+        "description": "Process a feature to extract tasks",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "feature_id": {
+              "type": "string",
+              "description": "The ID of the feature to process"
+            },
+            "use_llm": {
+              "type": "boolean",
+              "description": "Whether to use LLM for task extraction"
+            }
+          },
+          "required": ["feature_id"]
+        }
+      },
+      {
+        "name": "update_task_status",
+        "description": "Update the status of a task",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "task_id": {
+              "type": "string",
+              "description": "The ID of the task to update"
+            },
+            "status": {
+              "type": "string",
+              "description": "The new status of the task",
+              "enum": ["not-started", "in-progress", "completed", "blocked"]
+            }
+          },
+          "required": ["task_id", "status"]
+        }
+      },
+      {
+        "name": "get_feature_tasks",
+        "description": "Get all tasks for a feature",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "feature_id": {
+              "type": "string",
+              "description": "The ID of the feature"
+            }
+          },
+          "required": ["feature_id"]
+        }
+      }
+    ]
+  },
+  "integration_points": {
+    "feature_creation_agent": {
+      "description": "Receives new features for task extraction",
+      "interaction_type": "receive",
+      "interaction_method": "message",
+      "message_type": "feature_creation_notification"
+    },
+    "relationship_agent": {
+      "description": "Sends tasks for dependency analysis",
+      "interaction_type": "send",
+      "interaction_method": "message",
+      "message_type": "dependency_analysis_request"
+    },
+    "knowledge_graph": {
+      "description": "Stores and retrieves tasks and relationships",
+      "interaction_type": "bidirectional",
+      "interaction_method": "api",
+      "api_functions": [
+        "add_task_to_feature",
+        "get_feature_tasks",
+        "update_task"
+      ]
+    },
+    "ui_components": {
+      "description": "Provides task visualization and management",
+      "interaction_type": "provide",
+      "interaction_method": "api",
+      "api_functions": [
+        "get_feature_tasks",
+        "get_task_completion_status"
+      ]
+    }
+  },
+  "configuration": {
+    "default_task_templates_path": "templates/task_templates.json",
+    "prompt_templates_path": "templates/prompt_templates.json",
+    "llm_model": "gpt-4-0125-preview",
+    "memory_persistence": true,
+    "agent_communication_enabled": true,
+    "fallback_to_templates": true,
+    "auto_dependency_analysis": true,
+    "default_task_states": ["not-started", "in-progress", "completed", "blocked"],
+    "default_priority_levels": ["high", "medium", "low"],
+    "default_complexity_levels": ["high", "medium", "low"]
+  }
+}

@@ -1,0 +1,513 @@
+{
+  "version": "1.0.0",
+  "schema_info": {
+    "name": "SDK-First Architecture Roadmap Structure Template",
+    "description": "Template for the SDK-first architecture roadmap with knowledge graph relationships",
+    "created_at": "2025-05-04T00:00:00Z",
+    "updated_at": "2025-05-04T00:00:00Z"
+  },
+  "node_types": {
+    "milestone": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the milestone",
+          "pattern": "milestone-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the milestone"
+        },
+        "description": {
+          "description": "Detailed description of the milestone and its goals"
+        },
+        "version": {
+          "description": "Version of the milestone",
+          "default": "v1.0.0"
+        },
+        "status": {
+          "description": "Current status of the milestone",
+          "enum": ["not-started", "in-progress", "completed", "blocked", "deprecated"],
+          "default": "not-started"
+        },
+        "created": {
+          "description": "Creation timestamp",
+          "format": "datetime"
+        },
+        "last_updated": {
+          "description": "Last update timestamp",
+          "format": "datetime"
+        },
+        "metadata": {
+          "description": "Additional metadata for the milestone",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name", "status"]
+    },
+    "phase": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the phase",
+          "pattern": "phase-[0-9]+"
+        },
+        "name": {
+          "description": "Human-readable name for the phase"
+        },
+        "description": {
+          "description": "Detailed description of the phase and its goals"
+        },
+        "sequence": {
+          "description": "Sequence number within the milestone",
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "description": "Current status of the phase",
+          "enum": ["pending", "active", "completed", "skipped", "failed"],
+          "default": "pending"
+        },
+        "metadata": {
+          "description": "Additional metadata for the phase",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "module": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the module",
+          "pattern": "module-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the module"
+        },
+        "description": {
+          "description": "Detailed description of the module and its functionality"
+        },
+        "status": {
+          "description": "Current status of the module",
+          "enum": ["pending", "active", "completed", "skipped", "failed"],
+          "default": "pending"
+        },
+        "metadata": {
+          "description": "Additional metadata for the module",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name"]
+    },
+    "feature": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the feature",
+          "pattern": "feature-[0-9]+-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the feature"
+        },
+        "description": {
+          "description": "Detailed description of the feature and its functionality"
+        },
+        "status": {
+          "description": "Current status of the feature",
+          "enum": ["not-started", "in-progress", "completed", "failed", "blocked", "deprecated"],
+          "default": "not-started"
+        },
+        "created": {
+          "description": "Creation timestamp",
+          "format": "datetime"
+        },
+        "last_updated": {
+          "description": "Last update timestamp",
+          "format": "datetime"
+        },
+        "metadata": {
+          "description": "Additional metadata for the feature",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name", "status"]
+    },
+    "enhancement": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the enhancement",
+          "pattern": "enhancement-[0-9]+-[0-9]+-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the enhancement"
+        },
+        "description": {
+          "description": "Detailed description of the enhancement"
+        },
+        "status": {
+          "description": "Current status of the enhancement",
+          "enum": ["not-started", "in-progress", "completed", "failed", "blocked", "deprecated"],
+          "default": "not-started"
+        },
+        "priority": {
+          "description": "Priority level of the enhancement",
+          "enum": ["low", "medium", "high", "critical"],
+          "default": "medium"
+        },
+        "metadata": {
+          "description": "Additional metadata for the enhancement",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name", "status", "priority"]
+    },
+    "tool": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the tool",
+          "pattern": "tool-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the tool"
+        },
+        "description": {
+          "description": "Detailed description of the tool's functionality"
+        },
+        "category": {
+          "description": "Category of the tool",
+          "enum": ["system", "knowledge", "agent", "integration", "utility"],
+          "default": "utility"
+        },
+        "status": {
+          "description": "Current status of the tool",
+          "enum": ["not-implemented", "implemented", "deprecated"],
+          "default": "not-implemented"
+        },
+        "permissions": {
+          "description": "Permission requirements for the tool",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "description": "Additional metadata for the tool",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name", "description", "category"]
+    },
+    "agent": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the agent",
+          "pattern": "agent-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the agent"
+        },
+        "description": {
+          "description": "Detailed description of the agent's purpose and capabilities"
+        },
+        "type": {
+          "description": "Type of the agent",
+          "enum": ["system", "utility", "domain", "orchestrator"],
+          "default": "utility"
+        },
+        "status": {
+          "description": "Current status of the agent",
+          "enum": ["not-implemented", "implemented", "deprecated"],
+          "default": "not-implemented" 
+        },
+        "metadata": {
+          "description": "Additional metadata for the agent",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name", "description", "type"]
+    },
+    "maintenance_packet": {
+      "properties": {
+        "id": {
+          "description": "Unique identifier for the maintenance packet",
+          "pattern": "maintenance-[a-z0-9-]+"
+        },
+        "name": {
+          "description": "Human-readable name for the maintenance packet"
+        },
+        "description": {
+          "description": "Detailed description of the maintenance packet"
+        },
+        "priority": {
+          "description": "Priority level of the maintenance",
+          "enum": ["low", "medium", "high", "critical"],
+          "default": "medium"
+        },
+        "status": {
+          "description": "Current status of the maintenance packet",
+          "enum": ["not-started", "in-progress", "completed", "failed"],
+          "default": "not-started"
+        },
+        "schedule": {
+          "description": "Schedule for the maintenance",
+          "enum": ["on-demand", "daily", "weekly", "monthly", "before-milestone", "after-milestone"],
+          "default": "on-demand"
+        },
+        "auto_trigger": {
+          "description": "Whether the maintenance packet should be automatically triggered",
+          "type": "boolean",
+          "default": false
+        },
+        "last_run": {
+          "description": "Timestamp of the last run",
+          "format": "datetime"
+        },
+        "metadata": {
+          "description": "Additional metadata for the maintenance packet",
+          "type": "object"
+        }
+      },
+      "required": ["id", "name", "status", "priority"]
+    }
+  },
+  "relationships": {
+    "milestone_contains_phase": {
+      "description": "A milestone contains multiple phases",
+      "source": "milestone",
+      "target": "phase",
+      "cardinality": "1:n",
+      "properties": {
+        "sequence": {
+          "description": "Order of the phase within the milestone",
+          "type": "integer"
+        }
+      }
+    },
+    "phase_contains_module": {
+      "description": "A phase contains multiple modules",
+      "source": "phase",
+      "target": "module",
+      "cardinality": "1:n"
+    },
+    "module_contains_feature": {
+      "description": "A module contains multiple features",
+      "source": "module",
+      "target": "feature",
+      "cardinality": "1:n"
+    },
+    "feature_has_enhancement": {
+      "description": "A feature can have multiple enhancements",
+      "source": "feature",
+      "target": "enhancement",
+      "cardinality": "1:n"
+    },
+    "feature_implements_tool": {
+      "description": "A feature implements a tool",
+      "source": "feature",
+      "target": "tool",
+      "cardinality": "1:n",
+      "properties": {
+        "implementation_type": {
+          "description": "Type of implementation relationship",
+          "enum": ["creates", "extends", "modifies"],
+          "default": "creates"
+        }
+      }
+    },
+    "feature_implements_agent": {
+      "description": "A feature implements an agent",
+      "source": "feature",
+      "target": "agent",
+      "cardinality": "1:n",
+      "properties": {
+        "implementation_type": {
+          "description": "Type of implementation relationship",
+          "enum": ["creates", "extends", "modifies"],
+          "default": "creates"
+        }
+      }
+    },
+    "tool_used_by_agent": {
+      "description": "A tool is used by an agent",
+      "source": "tool",
+      "target": "agent",
+      "cardinality": "n:n",
+      "properties": {
+        "usage_type": {
+          "description": "Type of usage relationship",
+          "enum": ["required", "optional", "conditional"],
+          "default": "required"
+        }
+      }
+    },
+    "tool_depends_on_tool": {
+      "description": "A tool depends on other tools",
+      "source": "tool",
+      "target": "tool",
+      "cardinality": "n:n",
+      "properties": {
+        "dependency_type": {
+          "description": "Type of dependency",
+          "enum": ["strong", "weak", "optional"],
+          "default": "strong"
+        }
+      }
+    },
+    "agent_orchestrates_agent": {
+      "description": "An agent orchestrates other agents",
+      "source": "agent",
+      "target": "agent",
+      "cardinality": "n:n",
+      "properties": {
+        "orchestration_type": {
+          "description": "Type of orchestration relationship",
+          "enum": ["controls", "coordinates", "monitors"],
+          "default": "coordinates"
+        }
+      }
+    },
+    "feature_depends_on": {
+      "description": "A feature depends on other features",
+      "source": "feature",
+      "target": "feature",
+      "cardinality": "n:n",
+      "properties": {
+        "dependency_type": {
+          "description": "Type of dependency",
+          "enum": ["strong", "weak", "optional"],
+          "default": "strong"
+        },
+        "notes": {
+          "description": "Notes about the dependency"
+        }
+      }
+    },
+    "feature_extends": {
+      "description": "A feature extends (builds upon) another feature",
+      "source": "feature",
+      "target": "feature",
+      "cardinality": "n:n"
+    },
+    "maintenance_targets": {
+      "description": "A maintenance packet targets specific components",
+      "source": "maintenance_packet",
+      "target": ["milestone", "phase", "module", "feature", "tool", "agent"],
+      "cardinality": "1:n"
+    }
+  },
+  "knowledge_graph_properties": {
+    "traversal_paths": {
+      "milestone_to_features": {
+        "description": "Path from milestone to all contained features",
+        "path": ["milestone_contains_phase", "phase_contains_module", "module_contains_feature"]
+      },
+      "feature_to_tools": {
+        "description": "Path from feature to implemented tools",
+        "path": ["feature_implements_tool"]
+      },
+      "feature_to_agents": {
+        "description": "Path from feature to implemented agents",
+        "path": ["feature_implements_agent"]
+      },
+      "agent_to_tools": {
+        "description": "Tools used by an agent",
+        "path": ["tool_used_by_agent"]
+      },
+      "tool_dependencies": {
+        "description": "All dependencies of a tool (direct and indirect)",
+        "path": ["tool_depends_on_tool+"]
+      },
+      "feature_dependencies": {
+        "description": "All dependencies of a feature (direct and indirect)",
+        "path": ["feature_depends_on+"]
+      },
+      "agent_orchestration": {
+        "description": "Agent orchestration hierarchy",
+        "path": ["agent_orchestrates_agent+"]
+      },
+      "feature_enhancements": {
+        "description": "Enhancements for a feature",
+        "path": ["feature_has_enhancement"]
+      }
+    },
+    "visualization_layouts": {
+      "hierarchical": {
+        "description": "Hierarchical view of the roadmap",
+        "levels": ["milestone", "phase", "module", "feature"]
+      },
+      "dependency_network": {
+        "description": "Network view of feature dependencies",
+        "focus": "feature_depends_on"
+      },
+      "tool_dependency_network": {
+        "description": "Network view of tool dependencies",
+        "focus": "tool_depends_on_tool"
+      },
+      "agent_orchestration_network": {
+        "description": "Network view of agent orchestration",
+        "focus": "agent_orchestrates_agent"
+      },
+      "timeline": {
+        "description": "Timeline view of milestones and phases",
+        "sequence_property": "sequence"
+      }
+    }
+  },
+  "templates": {
+    "milestone": {
+      "id": "milestone-{id}",
+      "name": "{name}",
+      "description": "{description}",
+      "version": "v1.0.0",
+      "status": "not-started",
+      "created": "{timestamp}",
+      "last_updated": "{timestamp}",
+      "metadata": {}
+    },
+    "phase": {
+      "id": "phase-{number}",
+      "name": "{name}",
+      "description": "{description}",
+      "sequence": "{number}",
+      "status": "pending",
+      "metadata": {}
+    },
+    "module": {
+      "id": "module-{id}",
+      "name": "{name}",
+      "description": "{description}",
+      "status": "pending",
+      "metadata": {}
+    },
+    "feature": {
+      "id": "feature-{number}-{id}",
+      "name": "{name}",
+      "description": "{description}",
+      "status": "not-started",
+      "created": "{timestamp}",
+      "last_updated": "{timestamp}",
+      "metadata": {}
+    },
+    "enhancement": {
+      "id": "enhancement-{feature_number}-{number}-{id}",
+      "name": "{name}",
+      "description": "{description}",
+      "status": "not-started",
+      "priority": "medium",
+      "metadata": {}
+    },
+    "tool": {
+      "id": "tool-{id}",
+      "name": "{name}",
+      "description": "{description}",
+      "category": "utility",
+      "status": "not-implemented",
+      "permissions": [],
+      "metadata": {}
+    },
+    "agent": {
+      "id": "agent-{id}",
+      "name": "{name}",
+      "description": "{description}",
+      "type": "utility",
+      "status": "not-implemented",
+      "metadata": {}
+    }
+  }
+}

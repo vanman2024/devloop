@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<command type="agent">
+  <name>${name}</name>
+  <type>${type}</type>
+  <description>${description}</description>
+  <tools>
+    ${tools}
+  </tools>
+  ${thinking_tag}
+</command>

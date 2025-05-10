@@ -1,0 +1,140 @@
+# Python virtual environment
+venv/
+env/
+.env/
+.venv/
+ENV/
+
+# Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+bin/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.tmproj
+*.esproj
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node modules and build
+node_modules/
+dist/
+dist-ssr/
+build/
+*.local
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+.tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Generated files
+ui-debug.log
+firebase-debug.log
+firebase-debug.*.log
+.firebase/
+
+# API keys and secrets
+.env.local
+.secret.key
+**/secrets/
+
+# Recycle bin directory (for moved files)
+recycle-bin/
+
+# Claude settings
+**/.claude/settings.local.json
+
+# Specific to Devloop
+ui/continuous-backup.pid
+ui/working-detector.pid
+ui/server/server.pid
+ui/*.pid
+api/server.pid
+backups/
+ui/backups/
+ui/component-backups/
+**/.pid
+**/server.out
+
+# System-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/

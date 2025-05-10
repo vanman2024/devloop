@@ -1,0 +1,21 @@
+{
+  "status": "healthy",
+  "startTime": "2025-05-06T04:06:54.729Z",
+  "lastCheck": "2025-05-08T05:52:14.192Z",
+  "lastSuccessfulBackup": "2025-05-08T05:52:26.462Z",
+  "checksRun": 4,
+  "checksSucceeded": 4,
+  "backupsCreated": 19,
+  "lastError": "Dev server not running",
+  "pid": 111376,
+  "lastMessage": "Lock released",
+  "lastMessageType": "info",
+  "lastUpdate": "2025-05-08T05:52:26.481Z",
+  "lastCheckResults": {
+    "Build compilation": true,
+    "Runtime errors": true,
+    "Critical state": true,
+    "Critical routes": true
+  },
+  "lastErrorTime": "2025-05-08T02:20:37.346Z"
+}

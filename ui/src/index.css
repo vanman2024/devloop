@@ -1,0 +1,658 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-gray-900 text-white;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* UI Changelog specific styles */
+.snapshot-highlight {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  animation: pulse-blue 1s;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes pulse-blue {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Visual diff overlay styles */
+.visual-diff-overlay {
+  position: relative;
+}
+
+.visual-diff-slider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  cursor: ew-resize;
+}
+
+.visual-diff-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Timeline styles */
+.timeline-track {
+  position: relative;
+  height: 4px;
+  background-color: #374151;
+  margin: 20px 0;
+  border-radius: 2px;
+}
+
+.timeline-marker {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timeline-marker:hover, .timeline-marker.active {
+  width: 16px;
+  height: 16px;
+  background-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.timeline-marker::after {
+  content: attr(data-date);
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+/* Animation for component registration */
+@keyframes register-pulse {
+  0% {
+    outline: 2px solid rgba(59, 130, 246, 0);
+  }
+  50% {
+    outline: 2px solid rgba(59, 130, 246, 0.5);
+  }
+  100% {
+    outline: 2px solid rgba(59, 130, 246, 0);
+  }
+}
+
+.component-registered {
+  animation: register-pulse 1s ease-in-out;
+}
+
+/* Toast notification styles */
+.toast-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1f2937;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast-notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-notification.success {
+  border-left: 4px solid #10b981;
+}
+
+.toast-notification.info {
+  border-left: 4px solid #3b82f6;
+}
+
+.toast-notification.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.toast-notification.error {
+  border-left: 4px solid #ef4444;
+}
+
+/* Dark theme form controls */
+.focused-dark {
+  background-color: #374151 !important;
+  color: white !important;
+  border-color: #4b5563 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+textarea.form-control:focus, 
+input.form-control:focus, 
+select.form-control:focus,
+.form-control:focus {
+  background-color: #374151 !important;
+  color: white !important;
+  border-color: #4b5563 !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Global overrides for Bootstrap nav tabs */
+.nav-tabs,
+.nav-tabs .nav-link,
+.nav-tabs .nav-item {
+  border: none !important;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none !important;
+  color: white !important;
+  background-color: #2d3748 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-bottom: 2px solid #60a5fa !important; /* Light blue for hover */
+}
+
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:active {
+  border: none !important;
+  color: white !important;
+  background-color: #2d3748 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  border: none !important;
+  border-bottom: 2px solid #3b82f6 !important; /* Darker blue for active */
+  color: white !important;
+  background-color: #374151 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom Tabs (Completely custom, no Bootstrap) */
+.custom-tabs {
+  margin-bottom: 1rem;
+}
+
+.custom-tabs .tab-buttons {
+  display: flex;
+  border-bottom: 1px solid #4b5563;
+}
+
+.custom-tabs .tab-button {
+  /* Base styles */
+  background-color: #1f2937;
+  color: #e2e8f0;
+  border: none;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+  /* Prevent default browser styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none !important;
+  text-decoration: none !important;
+  
+  /* Force dark styles */
+  box-shadow: none !important;
+  border: none !important;
+  border-bottom: 1px solid transparent !important;
+  color: #e2e8f0 !important;
+}
+
+.custom-tabs .tab-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #60a5fa;
+  transition: width 0.2s ease;
+}
+
+.custom-tabs .tab-button:hover {
+  background-color: #2d3748;
+  color: white; /* Ensure text remains visible */
+}
+
+.custom-tabs .tab-button:hover::after {
+  width: 100%;
+}
+
+/* Explicitly set styles for all button states to prevent browser defaults */
+.custom-tabs .tab-button:hover,
+.custom-tabs .tab-button:active,
+.custom-tabs .tab-button:focus,
+.custom-tabs .tab-button:focus-visible,
+.custom-tabs .tab-button:focus-within {
+  background-color: #2d3748 !important;
+  color: white !important;
+  outline: none !important;
+  border-color: transparent !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.custom-tabs .tab-button:focus {
+  outline: none;
+}
+
+.custom-tabs .tab-button.active {
+  background-color: #374151;
+  border-bottom: 2px solid #3b82f6;
+  color: white;
+}
+
+.custom-tabs .tab-button.active::after {
+  width: 0; /* Hide the hover indicator when active */
+}
+
+/* Modal Scrolling & Enhanced Appearance */
+.modal-body {
+  max-height: calc(100vh - 200px) !important;
+  overflow-y: auto !important;
+  padding: 1.5rem !important;
+  border-radius: 0.25rem !important;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Modal Content Enhancement */
+.modal-header {
+  padding: 1rem 1.5rem !important;
+  background: linear-gradient(to right, #1a2a3a, #2c3e50) !important;
+  border-bottom: 1px solid #3b506b !important;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem !important;
+  background: linear-gradient(to right, #1a2a3a, #2c3e50) !important;
+  border-top: 1px solid #3b506b !important;
+}
+
+/* Card elements within modals */
+.modal-body .card {
+  border: 1px solid #3b506b !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+.modal-body .card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.modal-body .card-header {
+  background: linear-gradient(to right, #2c3e50, #3b506b) !important;
+  padding: 0.75rem 1.25rem !important;
+  font-weight: bold !important;
+}
+
+/* Activity list items hover effect */
+.hover-highlight {
+  transition: all 0.2s ease !important;
+}
+
+.hover-highlight:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  transform: translateX(2px) !important;
+}
+
+/* Global Header styles */
+.global-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.global-header .search-bar {
+  transition: all 0.2s ease;
+}
+
+.global-header .search-bar:focus-within {
+  transform: translateY(-2px);
+}
+
+.global-header .profile-menu {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform-origin: top right;
+}
+
+.global-header .status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 9999px;
+  border: 2px solid white;
+}
+
+.global-header .status-online {
+  background-color: #10B981; /* green-500 */
+}
+
+.global-header .status-away {
+  background-color: #F59E0B; /* yellow-500 */
+}
+
+.global-header .status-offline {
+  background-color: #9CA3AF; /* gray-400 */
+}
+
+/* Feature modal specific enhancements */
+.feature-details-modal .badge,
+.activity-details-modal .badge {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Button enhancements */
+.modal-footer .btn {
+  transition: all 0.2s ease-in-out !important;
+  font-weight: 500 !important;
+}
+
+.modal-footer .btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* EMERGENCY FIX FOR WHITE HOVER ISSUE */
+.activity-card *,
+.activity-card * *,
+.activity-card *:hover,
+.activity-card *:hover *,
+.activity-card:hover *,
+.d-flex *,
+div[style] *,
+.card-title,
+.card-title:hover,
+.card-text,
+.card-text:hover,
+.text-gray-300,
+.text-gray-300:hover,
+span, span:hover,
+p, p:hover {
+  color: white !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Activity Item Styles - Fix hover issues for activity cards */
+.activity-card {
+  background-color: #2c2f36 !important; /* dark background */
+  color: #ffffff !important; /* white text */
+  transition: background-color 0.2s ease !important; /* smooth hover transition */
+}
+
+.activity-card:hover {
+  background-color: #383c44 !important; /* just slightly lighter, but still dark */
+  color: #ffffff !important; /* KEEP text white on hover */
+}
+
+.activity-card.blue-highlight,
+.activity-card.active {
+  background-color: #007bff !important; /* bright blue for active */
+  color: #ffffff !important; /* white text */
+}
+
+/* Override any generic hover rules to ensure text stays visible */
+.activity-card:hover *,
+.activity-card:hover .card-title,
+.activity-card:hover .card-text,
+.activity-card:hover pre,
+.activity-card:hover small,
+.activity-card:hover span,
+.activity-card:hover div {
+  color: inherit !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* AI Chat Component Styles */
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: #60a5fa;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.4;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation: typing 1s infinite 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation: typing 1s infinite 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation: typing 1s infinite 0.4s;
+}
+
+@keyframes typing {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-5px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.4;
+  }
+}
+
+.messages-container .list-group-item {
+  transition: all 0.3s ease;
+  animation: message-fade-in 0.3s ease;
+}
+
+@keyframes message-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Markdown content styles */
+.markdown-content {
+  color: #e2e8f0;
+}
+
+.markdown-content h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.markdown-content h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: white;
+}
+
+.markdown-content h3 {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.markdown-content h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.markdown-content p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.markdown-content ul, .markdown-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+}
+
+.markdown-content li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-content a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.markdown-content a:hover {
+  color: #93c5fd;
+}
+
+.markdown-content blockquote {
+  border-left: 4px solid #4b5563;
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 1rem;
+  font-style: italic;
+  color: #9ca3af;
+}
+
+.markdown-content code {
+  background-color: #1e293b;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.markdown-content pre {
+  background-color: #1e293b;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+  color: #e2e8f0;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.markdown-content th {
+  background-color: #1e293b;
+  padding: 0.5rem;
+  text-align: left;
+  border: 1px solid #4b5563;
+}
+
+.markdown-content td {
+  padding: 0.5rem;
+  border: 1px solid #4b5563;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+}
