@@ -4,6 +4,26 @@
 
 This document outlines how Devloop's agentic architecture transforms the traditional software development lifecycle (SDLC) into an intelligent, self-optimizing system. By integrating LLM-powered agents at every stage of development, Devloop creates a continuous feedback loop that improves code quality, accelerates delivery, and maintains system integrity from concept to production and beyond.
 
+## Table of Contents
+
+1. [Modern SDLC Through the Agentic Lens](#modern-sdlc-through-the-agentic-lens)
+2. [Core Architecture Integration with SDLC](#core-architecture-integration-with-sdlc)
+3. [Planning and Requirements Gathering](#1-planning-and-requirements-gathering)
+4. [Development Phase](#2-development-phase)
+   - [Feature Creation Agent System](#feature-creation-agent-system)
+   - [Task Agent System](#task-agent-system)
+   - [Builder Agent System](#builder-agent-system)
+5. [Continuous Integration & Continuous Delivery](#3-continuous-integration--continuous-delivery-cicd)
+6. [Quality Assurance](#4-quality-assurance)
+7. [User Acceptance Testing](#5-user-acceptance-testing-uat)
+8. [Deployment Strategies](#6-deployment-strategies)
+9. [Documentation Management](#7-documentation-management)
+10. [Monitoring and Site Reliability](#8-monitoring-and-site-reliability)
+11. [Continuous Improvement](#8-continuous-improvement)
+12. [Unified Agent-SDLC Orchestration](#unified-agent-sdlc-orchestration)
+13. [Knowledge Graph: The Connective Tissue](#knowledge-graph-the-connective-tissue)
+14. [Conclusion](#conclusion)
+
 ## Modern SDLC Through the Agentic Lens
 
 Traditional SDLC approaches rely heavily on human coordination across planning, development, testing, deployment, and monitoring. Devloop's architecture augments and automates these processes through specialized agent systems that operate across the entire development lifecycle.
@@ -902,7 +922,252 @@ class FlagController:
         }
 ```
 
-## 7. Monitoring and Site Reliability
+## 7. Documentation Management
+
+### Documentation Agent System
+
+The **Documentation Agent** ensures comprehensive, up-to-date documentation throughout the SDLC:
+
+```
+┌────────────────────────────────────────────────────┐
+│            DOCUMENTATION PARENT AGENT              │
+│  ┌──────────────────────────────────────────────┐  │
+│  │  - Documentation Generation                  │  │
+│  │  - Documentation Validation                  │  │
+│  │  - Knowledge Integration                     │  │
+│  │  - Consistency Enforcement                   │  │
+│  └──────────────────────────────────────────────┘  │
+└───────────────────────┬──────────────────────────────┘
+                        │
+      ┌─────────────────┼─────────────────────┐
+      │                 │                     │
+┌─────▼─────┐    ┌──────▼───────┐      ┌──────▼─────┐
+│ DOCUMENT  │    │ VALIDATION   │      │ TAGGING    │
+│ GENERATOR │    │ ENGINE       │      │ SYSTEM     │
+└───────────┘    └──────────────┘      └────────────┘
+```
+
+#### Documentation Lifecycle Management
+
+The Documentation Agent oversees the entire documentation lifecycle:
+
+1. **Document Generation**: Creating documentation from code, comments, and Knowledge Graph data
+2. **Document Validation**: Ensuring accuracy, completeness, and consistency
+3. **Document Organization**: Structuring documentation for optimal discoverability
+4. **Knowledge Integration**: Connecting documentation to the Knowledge Graph
+5. **Auto-Tagging**: Applying metadata tags for classification and search
+
+#### Document Processing Pipeline
+
+The Documentation Agent implements a sophisticated processing pipeline:
+
+```python
+class DocumentationAgent:
+    def __init__(self, config, knowledge_graph):
+        self.config = config
+        self.kg = knowledge_graph
+        self.doc_generator = DocumentGenerator(config)
+        self.validation_engine = ValidationEngine(config)
+        self.tagging_system = TaggingSystem(config)
+
+    async def generate_feature_documentation(self, feature_id):
+        """Generate comprehensive documentation for a feature"""
+        # Get feature details from Knowledge Graph
+        feature = await self.kg.get_feature(feature_id)
+
+        # Get all associated code files
+        code_files = await self._get_feature_code_files(feature_id)
+
+        # Extract documentation from code
+        code_docs = await self._extract_code_documentation(code_files)
+
+        # Generate architectural documentation
+        arch_docs = await self.doc_generator.generate_architecture_docs(feature)
+
+        # Generate API documentation
+        api_docs = await self.doc_generator.generate_api_docs(feature, code_files)
+
+        # Generate usage documentation
+        usage_docs = await self.doc_generator.generate_usage_docs(feature)
+
+        # Combine all documentation
+        combined_docs = {
+            "architecture": arch_docs,
+            "api": api_docs,
+            "usage": usage_docs,
+            "code": code_docs
+        }
+
+        # Validate documentation
+        validation_results = await self.validation_engine.validate(combined_docs, feature)
+
+        # Apply fixes for validation issues
+        if not validation_results.all_passed:
+            combined_docs = await self._apply_validation_fixes(combined_docs, validation_results)
+
+        # Apply semantic tagging
+        tags = await self.tagging_system.tag_document(combined_docs)
+
+        # Store documentation in Knowledge Graph
+        doc_id = f"doc-{feature_id}"
+        await self.kg.store_document({
+            "id": doc_id,
+            "feature_id": feature_id,
+            "content": combined_docs,
+            "validation": validation_results,
+            "tags": tags,
+            "created_at": datetime.utcnow().isoformat(),
+            "created_by": "documentation_agent"
+        })
+
+        # Update feature with documentation reference
+        await self.kg.update_feature(feature_id, {
+            "documentation": doc_id
+        })
+
+        return {
+            "feature_id": feature_id,
+            "doc_id": doc_id,
+            "validation": validation_results.summary,
+            "tags": tags
+        }
+
+    async def _get_feature_code_files(self, feature_id):
+        """Get all code files associated with a feature"""
+        feature = await self.kg.get_feature(feature_id)
+
+        # Get implementation details from feature
+        implementation = feature.get('implementation_details', {})
+
+        # Extract file paths
+        file_paths = implementation.get('files_created', [])
+
+        # Fetch file contents
+        code_files = []
+        for path in file_paths:
+            content = await self._fetch_file_content(path)
+            code_files.append({
+                "path": path,
+                "content": content
+            })
+
+        return code_files
+
+    async def _extract_code_documentation(self, code_files):
+        """Extract documentation from code files"""
+        # Extract documentation from source code
+        # ...implementation details...
+
+    async def _apply_validation_fixes(self, docs, validation_results):
+        """Apply fixes for validation issues"""
+        # Apply automatic fixes for documentation issues
+        # ...implementation details...
+
+    async def update_documentation(self, feature_id):
+        """Update documentation when feature changes"""
+        # ...implementation details...
+
+    async def generate_project_documentation(self, project_id):
+        """Generate comprehensive project-level documentation"""
+        # ...implementation details...
+```
+
+#### ML-Powered Document Tagging
+
+The Documentation Agent uses advanced ML techniques for automatic document tagging:
+
+```javascript
+// Knowledge Graph representation of document tags
+{
+  "id": "doc-feature-460100-model-initialization",
+  "tags": {
+    "semantic": [
+      "model-initialization",
+      "configuration-loading",
+      "parameter-validation"
+    ],
+    "technical": [
+      "python",
+      "machine-learning",
+      "yaml-parsing"
+    ],
+    "audience": [
+      "developers",
+      "data-scientists"
+    ],
+    "lifecycle": [
+      "implementation",
+      "integration"
+    ],
+    "components": [
+      "core-engine",
+      "configuration-manager"
+    ]
+  },
+  "tag_confidence": {
+    "model-initialization": 0.98,
+    "configuration-loading": 0.95,
+    "parameter-validation": 0.92,
+    "python": 0.99,
+    "machine-learning": 0.91,
+    "yaml-parsing": 0.88,
+    "developers": 0.95,
+    "data-scientists": 0.87,
+    "implementation": 0.93,
+    "integration": 0.85,
+    "core-engine": 0.96,
+    "configuration-manager": 0.89
+  }
+}
+```
+
+#### Dynamic Documentation Systems
+
+The Documentation Agent supports dynamic documentation that updates automatically:
+
+1. **Change Detection**: Monitors code and Knowledge Graph changes
+2. **Incremental Updates**: Regenerates only affected documentation sections
+3. **Version Tracking**: Maintains documentation history
+4. **Consistency Checking**: Ensures documentation reflects current implementation
+
+#### Document Validation System
+
+The Documentation Agent implements comprehensive validation:
+
+```python
+class ValidationEngine:
+    def __init__(self, config):
+        self.config = config
+        self.validators = [
+            CompletenessValidator(config),
+            ConsistencyValidator(config),
+            ReadabilityValidator(config),
+            TechnicalAccuracyValidator(config)
+        ]
+
+    async def validate(self, docs, feature):
+        """Validate documentation for completeness, consistency, and accuracy"""
+        validation_results = ValidationResult()
+
+        for validator in self.validators:
+            result = await validator.validate(docs, feature)
+            validation_results.add_result(validator.name, result)
+
+        return validation_results
+
+class CompletenessValidator:
+    """Validates that documentation covers all required aspects"""
+    def __init__(self, config):
+        self.config = config
+        self.name = "completeness"
+
+    async def validate(self, docs, feature):
+        """Check that all required sections are present and complete"""
+        # Implementation of completeness validation
+        # ...
+```
+
+## 8. Monitoring and Site Reliability
 
 ### Observability Agent System
 
